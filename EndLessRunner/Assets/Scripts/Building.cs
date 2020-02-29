@@ -1,12 +1,12 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    [Range(1, 10)]
+    [Range(1, 50)]
     public int minimumTilesCount = 3;
-    [Range(1, 20)]
+    [Range(1, 50)]
     public int maximumTilesCount = 8;
     
     public GameObject roofCornerLeft;
@@ -17,6 +17,7 @@ public class Building : MonoBehaviour
     
     public List<GameObject> windowPrefabs;
     
+    public GameObject Player;
     public GameObject Parent;
     //Private use.
     int tileCount;
@@ -38,6 +39,13 @@ public class Building : MonoBehaviour
             Building bScript = previousBuilding.GetComponent<Building>();
             nextPosition.x = bScript.rightMostPoint.x;
             nextPosition.x += 1f;
+            
+            //Check jump stats.
+            float jumpVelocity = Player.GetComponent<PlayerJump>().jumpVelocity;
+            float runSpeed = Player.GetComponent<PlayerMovement>().runSpeed;
+            float gScale = Player.GetComponent<Rigidbody2D>().gravityScale;
+            
+            //jumpVelocity**2 / (2 * a) =  s; //s  max distance.
             
             //Calculate y component.
             

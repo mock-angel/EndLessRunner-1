@@ -10,6 +10,8 @@ public class GeneratorScript : MonoBehaviour
     
     public List<GameObject> buildings;
     
+    public GameObject Player;
+    
     //Private assets.
     [SerializeField]
     float distanceTravelled = 0f;
@@ -48,7 +50,6 @@ public class GeneratorScript : MonoBehaviour
         tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
         if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
              CreateNewBuilding();
-        
     }
     
     void CalculateWeight(){
@@ -91,6 +92,11 @@ public class GeneratorScript : MonoBehaviour
         //Select buildings based on their weight.
         CalculateWeight();
         
+        //building type should not be repeated.
+//        if(previousBuilding != null)
+//            while(previousBuilding.GetComponent<Building>().ID == previousBuilding.GetComponent<Building>().ID)
+//                CalculateWeight();
+//        else CalculateWeight();
         //Select Building type first.
         GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
         tempBuildingScript = newBuilding.GetComponent<Building>();
@@ -102,6 +108,7 @@ public class GeneratorScript : MonoBehaviour
         //Now let building create its contents.
         tempBuildingScript.Parent = gameObject;
         tempBuildingScript.previousBuilding = previousBuilding;
+        tempBuildingScript.Player = Player;
         tempBuildingScript.CreateContent();
         
         previousBuilding = newBuilding;
