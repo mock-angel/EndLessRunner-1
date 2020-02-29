@@ -16,7 +16,11 @@ public class GeneratorScript : MonoBehaviour
     float distanceTravelled = 0f;
     Building tempBuildingScript;
     GameObject tempSelectedBuilding;
-    float totalFrequencyWeight = 0;
+    
+    [SerializeField]
+    int totalFrequencyWeight = 0;
+    [SerializeField]
+    int selectedWeight = 0;
     
     void FixedUpdate(){
         //Check if more building placement is necessary.
@@ -29,20 +33,22 @@ public class GeneratorScript : MonoBehaviour
     
     void CalculateWeight(){
         int count = buildings.Count;
-        int totalFrequencyWeight = 0;
         
         List<int> frequencyWeightList = new List<int>();
         
-        int currentFrequency;
+        int tempFrequency;
         
+        //Calculate total weight, and store all weights in list.
         for (int i = 0; i < count; i++){
-            currentFrequency = buildings[i].GetComponent<Building>().frequencyWeight;
-            totalFrequencyWeight += currentFrequency;
-            frequencyWeightList.Add(currentFrequency);
+            tempFrequency = buildings[i].GetComponent<Building>().frequencyWeight;
+            totalFrequencyWeight += tempFrequency;
+            frequencyWeightList.Add(tempFrequency);
         }
         
-        int selectedWeight = Random.Range(1, totalFrequencyWeight + 1);
+        //Randomly Select weight.
+        selectedWeight = Random.Range(1, totalFrequencyWeight + 1);
         
+        //This is where we select the building based on their weight;
         totalFrequencyWeight = 0;
         for (int i = 0; i < count; i++){
             totalFrequencyWeight += frequencyWeightList[i];
