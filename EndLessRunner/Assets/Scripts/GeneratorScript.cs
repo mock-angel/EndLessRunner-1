@@ -36,25 +36,18 @@ public class GeneratorScript : MonoBehaviour
         
         Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
         Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-//        Vector2 Resultant = upperRight - lowerLeft; 
-//        Vector2 transform = Camera.main.transform.position;
-//        print(Resultant.x +"  "+ Resultant.y);
         
         //Remove Buildings that went outside of view.
-        if(AllBuildingsList.Count > 0){ 
-            if(AllBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
-                GameObject firstBuilding = AllBuildingsList[0];
-                AllBuildingsList.RemoveAt(0);
-                Destroy(firstBuilding);
-            }
+        if(AllBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
+            GameObject firstBuilding = AllBuildingsList[0];
+            AllBuildingsList.RemoveAt(0);
+            Destroy(firstBuilding);
         }
         
         // Create new buildings.
-        if(previousBuilding != null){
-            tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
-            if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
-                 CreateNewBuilding();
-        }
+        tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
+        if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
+             CreateNewBuilding();
         
     }
     
