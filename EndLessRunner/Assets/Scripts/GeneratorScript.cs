@@ -11,11 +11,13 @@ public class GeneratorScript : MonoBehaviour
     
     public GameObject player;
     
-    bool newBuldingRequired = true;
+    public List<GameObject> buildings;
     
-    void Start(){
-        //Create start buildings.
-    }
+    //Private assets.
+    bool newBuldingRequired = true;
+    [SerializeField]
+    float distanceTravelled = 0f;
+    Building tempBuilding;
     
     void FixedUpdate(){
         //Check if more building placement is necessary.
@@ -25,20 +27,23 @@ public class GeneratorScript : MonoBehaviour
             newBuldingRequired = false;
         }
     }
-    void createTiles(){
-        GameObject newObj = GameObject.Instantiate(roofTile, gameObject.transform.position, Quaternion.identity);
-        newObj.transform.parent = gameObject.transform;
-//        Destroy(newObj, 0.5f);
-//        Instantiate(roofTile, gameObject.transform.position, Quaternion.identity, gameObject);
-    }
-    
     
     void CreateNewBuilding(){
         //Select Building type first.
         
-        GameObject newBuilding = GameObject.Instantiate(new GameObject(), gameObject.transform.position, Quaternion.identity);
-        GameObject newTile = GameObject.Instantiate(roofTile, gameObject.transform.position, Quaternion.identity);
-//        newTile.alignment = (int)SpriteAlignment.TopLeft;
+        GameObject newBuilding = GameObject.Instantiate(buildings[0], gameObject.transform.position, Quaternion.identity);
+        tempBuilding = newBuilding.GetComponent<Building>();
+        Vector2 position = newBuilding.transform.position;
+        
+        //SetBuilding Transform.
+        newBuilding.transform.parent = gameObject.transform;
+        
+        //Now let building create its contents.
+        tempBuilding.Parent = gameObject;
+        tempBuilding.CreateContent();
+        
+        
+        
     }
     
 }

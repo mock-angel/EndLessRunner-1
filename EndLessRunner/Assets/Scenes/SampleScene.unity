@@ -429,6 +429,10 @@ MonoBehaviour:
   buildingTile: {fileID: 5138133244935686262, guid: fa2730750525f5ab1ba73e3c5faa02b3,
     type: 3}
   player: {fileID: 295253731}
+  buildings:
+  - {fileID: 1086788082497338361, guid: 7e5f64c52c39a4f2aa03e5c49668b344, type: 3}
+  - {fileID: 4167197922567063300, guid: dd19612575d0d7fb0955345e2ed85a4a, type: 3}
+  distanceTravelled: 0
 --- !u!1 &2045696524
 GameObject:
   m_ObjectHideFlags: 0

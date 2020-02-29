@@ -635,10 +635,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: d1aa0148-a9a6-45ee-bdec-12a9cafcd0cd
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: EndLessRunner
+  organizationId: sujakrishnar
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
