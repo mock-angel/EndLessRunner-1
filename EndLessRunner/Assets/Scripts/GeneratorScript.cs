@@ -16,19 +16,47 @@ public class GeneratorScript : MonoBehaviour
     float distanceTravelled = 0f;
     Building tempBuildingScript;
     GameObject tempSelectedBuilding;
+    Building tempPreviousBuildingScript;
     
     [SerializeField]
     int totalFrequencyWeight = 0;
     [SerializeField]
     int selectedWeight = 0;
     
+    GameObject previousBuilding;
+    List<GameObject> AllBuildingsList;
+    
+    void Start(){
+        AllBuildingsList = new List<GameObject>();
+    }
+    
     void FixedUpdate(){
         //Check if more building placement is necessary.
         
         if(newBuldingRequired) {
             CreateNewBuilding();
+//            CreateNewBuilding();
             newBuldingRequired = false;
         }
+        
+        Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
+        Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        Vector2 Resultant = upperRight - lowerLeft; 
+        Vector2 transform = Camera.main.transform.position;
+        print(Resultant.x +"  "+ Resultant.y);
+        
+        if(AllBuildingsList.Count>0) 
+            if(AllBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
+                GameObject firstBuilding = AllBuildingsList[0];
+                AllBuildingsList.RemoveAt(0);
+                Destroy(firstBuilding);
+            }
+        if(previousBuilding != null){
+            tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
+            if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
+                newBuldingRequired = true;
+        }
+        
     }
     
     void CalculateWeight(){
@@ -73,6 +101,7 @@ public class GeneratorScript : MonoBehaviour
         
         //Select Building type first.
         GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
+        AllBuildingsList.Add(newBuilding);
         tempBuildingScript = newBuilding.GetComponent<Building>();
         Vector2 position = newBuilding.transform.position;
         
@@ -81,8 +110,10 @@ public class GeneratorScript : MonoBehaviour
         
         //Now let building create its contents.
         tempBuildingScript.Parent = gameObject;
+        tempBuildingScript.previousBuilding = previousBuilding;
         tempBuildingScript.CreateContent();
         
+        previousBuilding = newBuilding;
         
         
     }

@@ -43,11 +43,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da49cadf8f0dee3d9fcea7e0acb2491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumTilesCount: 3
-  maximumTilesCount: 8
+  minimumTilesCount: 7
+  maximumTilesCount: 20
   roofCornerLeft: {fileID: 5138133244935686262, guid: fa2730750525f5ab1ba73e3c5faa02b3,
     type: 3}
   roofMiddle: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
     type: 3}
+  frequencyWeight: 5
   windowPrefabs: []
   Parent: {fileID: 0}
+  previousBuilding: {fileID: 0}
+  rightMostPoint: {x: 0, y: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
