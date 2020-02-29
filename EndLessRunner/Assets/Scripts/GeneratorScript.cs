@@ -6,9 +6,6 @@ using UnityEngine;
 public class GeneratorScript : MonoBehaviour
 {
     //Building assets.
-    public GameObject roofTile;
-    public GameObject buildingTile;
-    
     public GameObject player;
     
     public List<GameObject> buildings;
@@ -17,7 +14,9 @@ public class GeneratorScript : MonoBehaviour
     bool newBuldingRequired = true;
     [SerializeField]
     float distanceTravelled = 0f;
-    Building tempBuilding;
+    Building tempBuildingScript;
+    GameObject tempSelectedBuilding;
+    float totalFrequencyWeight = 0;
     
     void FixedUpdate(){
         //Check if more building placement is necessary.
@@ -28,19 +27,55 @@ public class GeneratorScript : MonoBehaviour
         }
     }
     
-    void CreateNewBuilding(){
-        //Select Building type first.
+    void CalculateWeight(){
+        int count = buildings.Count;
+        int totalFrequencyWeight = 0;
         
-        GameObject newBuilding = GameObject.Instantiate(buildings[0], gameObject.transform.position, Quaternion.identity);
-        tempBuilding = newBuilding.GetComponent<Building>();
+        List<int> frequencyWeightList = new List<int>();
+        
+        int currentFrequency;
+        
+        for (int i = 0; i < count; i++){
+            currentFrequency = buildings[i].GetComponent<Building>().frequencyWeight;
+            totalFrequencyWeight += currentFrequency;
+            frequencyWeightList.Add(currentFrequency);
+        }
+        
+        int selectedWeight = Random.Range(1, totalFrequencyWeight + 1);
+        
+        totalFrequencyWeight = 0;
+        for (int i = 0; i < count; i++){
+            totalFrequencyWeight += frequencyWeightList[i];
+            if (totalFrequencyWeight >= selectedWeight){
+                //Now building matches selected weight.
+                //select building.
+                tempSelectedBuilding = buildings[i];
+                return;
+            }
+            
+            //If none selected.
+            if (i == count -1){
+                print("Now buildings were selected.");
+            }
+        }
+    }
+    
+    void CreateNewBuilding(){
+        
+        //Select buildings based on their weight.
+        CalculateWeight();
+        
+        //Select Building type first.
+        GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
+        tempBuildingScript = newBuilding.GetComponent<Building>();
         Vector2 position = newBuilding.transform.position;
         
         //SetBuilding Transform.
         newBuilding.transform.parent = gameObject.transform;
         
         //Now let building create its contents.
-        tempBuilding.Parent = gameObject;
-        tempBuilding.CreateContent();
+        tempBuildingScript.Parent = gameObject;
+        tempBuildingScript.CreateContent();
         
         
         

@@ -12,6 +12,9 @@ public class Building : MonoBehaviour
     public GameObject roofCornerLeft;
     public GameObject roofMiddle;
     
+    [Range(0, 50)]
+    public int frequencyWeight = 5;
+    
     public List<GameObject> windowPrefabs;
     
     public GameObject Parent;
