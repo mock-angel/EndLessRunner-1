@@ -34,7 +34,6 @@ public class Building : MonoBehaviour
         
         Vector2 nextPosition = new Vector2();
         nextPosition.x = nextPosition.y = 0;// Make sure vector is set to 0;
-        
         if (previousBuilding != null){
             Building bScript = previousBuilding.GetComponent<Building>();
             nextPosition.x = bScript.rightMostPoint.x;
@@ -43,10 +42,27 @@ public class Building : MonoBehaviour
             //Check jump stats.
             float jumpVelocity = Player.GetComponent<PlayerJump>().jumpVelocity;
             float runSpeed = Player.GetComponent<PlayerMovement>().runSpeed;
-            float gScale = Player.GetComponent<Rigidbody2D>().gravityScale;
+            float gScale = (Player.GetComponent<Rigidbody2D>().gravityScale)*(-9.81f);
             
             //jumpVelocity**2 / (2 * a) =  s; //s  max distance.
             
+            float t = -jumpVelocity/gScale; //v = 0
+            float s = jumpVelocity * t + 0.5f * gScale * t*t;
+            
+            float maxHeightOfPlatform = (s - roofMiddle.GetComponent<Renderer>().bounds.size.y/2f) * 0.8f;
+            
+            float minDepthOfPlatform = s * 1.5f;
+            
+            float y = Random.Range(0, maxHeightOfPlatform);
+            
+            nextPosition.y = bScript.rightMostPoint.y;
+            nextPosition.y += maxHeightOfPlatform;
+//            s = -(jumpVelocity * jumpVelocity)/ (2f * gScale);
+//            print(s);
+            //v - u = at
+            //s = ut+ 0.5 a t**2;
+            //v**2 -u**2 = 2*a*s;
+            //s = 0.5(u + v) t
             //Calculate y component.
             
         }
@@ -55,7 +71,7 @@ public class Building : MonoBehaviour
         tileCount = Random.Range(minimumTilesCount, maximumTilesCount + 1);
         
         //Create tiles.
-        nextPosition.x += roofCornerLeft.GetComponent<Renderer>().bounds.size.x/2f;
+        nextPosition.x += roofMiddle.GetComponent<Renderer>().bounds.size.x/2f;
         float gap = 0.0f;
         
         GameObject newTile;
