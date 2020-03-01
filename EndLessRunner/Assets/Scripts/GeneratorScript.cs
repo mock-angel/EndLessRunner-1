@@ -10,25 +10,46 @@ public class GeneratorScript : MonoBehaviour
     
     public List<GameObject> buildings;
     
+    public GameObject Player;
+    
     //Private assets.
-    bool newBuldingRequired = true;
     [SerializeField]
     float distanceTravelled = 0f;
     Building tempBuildingScript;
     GameObject tempSelectedBuilding;
+    Building tempPreviousBuildingScript;
     
     [SerializeField]
     int totalFrequencyWeight = 0;
     [SerializeField]
     int selectedWeight = 0;
     
+    GameObject previousBuilding;
+    List<GameObject> AllBuildingsList;
+    
+    void Start(){
+        AllBuildingsList = new List<GameObject>();
+        
+        CreateNewBuilding();
+    }
+    
     void FixedUpdate(){
         //Check if more building placement is necessary.
         
-        if(newBuldingRequired) {
-            CreateNewBuilding();
-            newBuldingRequired = false;
+        Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
+        Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        
+        //Remove Buildings that went outside of view.
+        if(AllBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
+            GameObject firstBuilding = AllBuildingsList[0];
+            AllBuildingsList.RemoveAt(0);
+            Destroy(firstBuilding);
         }
+        
+        // Create new buildings.
+        tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
+        if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
+             CreateNewBuilding();
     }
     
     void CalculateWeight(){
@@ -71,6 +92,11 @@ public class GeneratorScript : MonoBehaviour
         //Select buildings based on their weight.
         CalculateWeight();
         
+        //building type should not be repeated.
+//        if(previousBuilding != null)
+//            while(previousBuilding.GetComponent<Building>().ID == previousBuilding.GetComponent<Building>().ID)
+//                CalculateWeight();
+//        else CalculateWeight();
         //Select Building type first.
         GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
         tempBuildingScript = newBuilding.GetComponent<Building>();
@@ -81,10 +107,14 @@ public class GeneratorScript : MonoBehaviour
         
         //Now let building create its contents.
         tempBuildingScript.Parent = gameObject;
+        tempBuildingScript.previousBuilding = previousBuilding;
+        tempBuildingScript.Player = Player;
         tempBuildingScript.CreateContent();
         
+        previousBuilding = newBuilding;
         
-        
+        //Finally add it to building list, to handle deletion.
+        AllBuildingsList.Add(newBuilding);
     }
     
 }

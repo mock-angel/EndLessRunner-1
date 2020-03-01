@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1086788082497338363}
   - component: {fileID: 1086788082497338360}
   m_Layer: 0
-  m_Name: Building1
+  m_Name: Building4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,11 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7da49cadf8f0dee3d9fcea7e0acb2491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumTilesCount: 3
-  maximumTilesCount: 8
-  roofCornerLeft: {fileID: 5138133244935686262, guid: fa2730750525f5ab1ba73e3c5faa02b3,
+  minimumTilesCount: 24
+  maximumTilesCount: 26
+  roofCornerLeft: {fileID: 5138133244935686262, guid: 028882d77eae2adec949095e721154f9,
     type: 3}
-  roofMiddle: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
+  roofMiddle: {fileID: 9164190885382925683, guid: 763e516a090da1c5bb99d4d3c1b763a8,
     type: 3}
+  frequencyWeight: 5
   windowPrefabs: []
   Parent: {fileID: 0}
+  previousBuilding: {fileID: 0}
+  rightMostPoint: {x: 0, y: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  ID: 3
