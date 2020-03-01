@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Settlement : MonoBehaviour
 {
+    public string SettlementName = "Settlement Name";
     public int frequencyWeight = 1;
     public int reachDistance = 0;
     public int numberOfBuildings = 5;

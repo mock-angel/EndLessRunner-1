@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4495567185309852147}
   - component: {fileID: 4495567185309852044}
   m_Layer: 0
-  m_Name: City
+  m_Name: City_default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5243f390a81eea2dc9eea5cc80d22dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SettlementName: Settlement
   frequencyWeight: 1
   reachDistance: 0
   numberOfBuildings: 5
@@ -51,3 +52,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   player: {fileID: 0}
   previousSettlement: {fileID: 0}
+  minBuildingCount: 6
+  maxBuildingCount: 10
+  previousBuilding: {fileID: 0}
+  allBuildingsDeleted: 0
