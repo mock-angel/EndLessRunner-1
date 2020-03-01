@@ -172,7 +172,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6995495}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.834776, y: 1.51, z: -10}
+  m_LocalPosition: {x: 17.801565, y: 1.51, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1967298893}
@@ -616,7 +616,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.834776, y: 1.51, z: -10}
+  m_LocalPosition: {x: 17.801565, y: 1.51, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1419,16 +1419,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 295253731}
-  buildings:
-  - {fileID: 1086788082497338361, guid: 7e5f64c52c39a4f2aa03e5c49668b344, type: 3}
-  - {fileID: 4167197922567063300, guid: dd19612575d0d7fb0955345e2ed85a4a, type: 3}
-  - {fileID: 1086788082497338361, guid: abbd5c8b22cbb0fa8bf134739ed48d64, type: 3}
-  - {fileID: 1086788082497338361, guid: de30935f921e0d09d9e84acb7868ed58, type: 3}
-  - {fileID: 1086788082497338361, guid: 8e37169e318ecc20b8d74bf82dcc5271, type: 3}
-  Player: {fileID: 295253731}
-  distanceTravelled: 0
-  totalFrequencyWeight: 0
-  selectedWeight: 0
+  settlements:
+  - {fileID: 4495567185309852146, guid: 2814a161b19330b28a0c65aa4945a029, type: 3}
+  - {fileID: 4130460945985193496, guid: 45778edd6494b91e8b9a919c15f7127a, type: 3}
+  distance: 0
+  previousSettlement: {fileID: 0}
 --- !u!1 &1967298892
 GameObject:
   m_ObjectHideFlags: 3
@@ -1527,7 +1522,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2098937550
 Transform:
   m_ObjectHideFlags: 0

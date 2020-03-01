@@ -22,12 +22,13 @@ public class PlayerMovement : MonoBehaviour
     {
         //Move to fixed update?
 //        rb.MovePosition(rb.position + movement * runSpeed * Time.deltaTime);
+        transform.position += movement * runSpeed * Time.deltaTime;
     }
     
-    void FixedUpdate()
-    {
-        //Move to fixed update?
-//        rb.MovePosition(rb.position + movement * runSpeed * Time.fixedDeltaTime);
-        transform.position += movement * runSpeed * Time.fixedDeltaTime;
-    }
+//    void FixedUpdate()
+//    {
+//        //Move to fixed update?
+////        rb.MovePosition(rb.position + movement * runSpeed * Time.fixedDeltaTime);
+////        transform.position += movement * runSpeed * Time.fixedDeltaTime;
+//    }
 }

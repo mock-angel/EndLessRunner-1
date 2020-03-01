@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1086788082497338361
+--- !u!1 &4495567185309852146
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1086788082497338363}
-  - component: {fileID: 1086788082497338360}
+  - component: {fileID: 4495567185309852147}
+  - component: {fileID: 4495567185309852044}
   m_Layer: 0
-  m_Name: Building1
+  m_Name: City_default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1086788082497338363
+--- !u!4 &4495567185309852147
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086788082497338361}
+  m_GameObject: {fileID: 4495567185309852146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.12780981, y: 0.09941569, z: -2.2773438}
+  m_LocalPosition: {x: 17.846714, y: 1.4051259, z: -1.3701959}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1086788082497338360
+--- !u!114 &4495567185309852044
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1086788082497338361}
+  m_GameObject: {fileID: 4495567185309852146}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7da49cadf8f0dee3d9fcea7e0acb2491, type: 3}
+  m_Script: {fileID: 11500000, guid: 5243f390a81eea2dc9eea5cc80d22dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minimumTilesCount: 18
-  maximumTilesCount: 23
-  roofCornerLeft: {fileID: 5138133244935686262, guid: fa2730750525f5ab1ba73e3c5faa02b3,
-    type: 3}
-  roofMiddle: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
-    type: 3}
-  frequencyWeight: 5
-  windowPrefabs: []
-  Parent: {fileID: 0}
+  SettlementName: Settlement
+  frequencyWeight: 1
+  reachDistance: 0
+  numberOfBuildings: 5
+  buildings:
+  - {fileID: 1086788082497338361, guid: 7e5f64c52c39a4f2aa03e5c49668b344, type: 3}
+  parent: {fileID: 0}
+  player: {fileID: 0}
+  previousSettlement: {fileID: 0}
+  minBuildingCount: 6
+  maxBuildingCount: 10
   previousBuilding: {fileID: 0}
-  rightMostPoint: {x: 0, y: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
+  allBuildingsDeleted: 0
