@@ -19,14 +19,20 @@ public class Building : MonoBehaviour
     
     public GameObject Player;
     public GameObject Parent;
-    //Private use.
-    int tileCount;
     
     public GameObject previousBuilding;
     
     public Vector2 rightMostPoint;
     
     public LayerMask groundLayer;
+    
+    //Private use.
+    int tileCount;
+    List<GameObject> AllTiles  = new List<GameObject>();
+    
+//    void Start(){
+//        AllTiles = new List<GameObject>();
+//    }
     
     public void CreateContent(){
         
@@ -37,14 +43,11 @@ public class Building : MonoBehaviour
         if (previousBuilding != null){
             Building bScript = previousBuilding.GetComponent<Building>();
             nextPosition.x = bScript.rightMostPoint.x;
-            nextPosition.x += 1f;
             
             //Check jump stats.
             float jumpVelocity = Player.GetComponent<PlayerJump>().jumpVelocity;
             float runSpeed = Player.GetComponent<PlayerMovement>().runSpeed;
             float gScale = (Player.GetComponent<Rigidbody2D>().gravityScale)*(-9.81f);
-            
-            //jumpVelocity**2 / (2 * a) =  s; //s  max distance.
             
             float t = -jumpVelocity/gScale; //v = 0
             float s = jumpVelocity * t + 0.5f * gScale * t*t;
@@ -53,12 +56,56 @@ public class Building : MonoBehaviour
             
             float minDepthOfPlatform = s * 1.5f;
             
-            float y = Random.Range(0, maxHeightOfPlatform);
+            float y = Random.Range(-minDepthOfPlatform, maxHeightOfPlatform);
             
+            //Set y height.
             nextPosition.y = bScript.rightMostPoint.y;
-            nextPosition.y += maxHeightOfPlatform;
-//            s = -(jumpVelocity * jumpVelocity)/ (2f * gScale);
-//            print(s);
+            nextPosition.y += y;
+            
+            //Calculate t, then x distance here.
+//            0.5 * gScale * t*t + u*t  - s = 0;
+            float a = 0.5f * gScale;
+            float b = jumpVelocity;
+            float c = -y;
+            
+            float t1 = (-b + Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
+            float t2 = (-b - Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
+            
+            float t_y = 0;
+            
+            if(t1 < 0 || t2 < 0){
+                print("Reached here");
+                //Calculate if either is negative.
+                if(t1< 0&& t2<0){
+                    print("Error");
+                    return;
+                }
+                if(t2 >= 0){
+                    t_y = t2;
+                }else 
+                    t_y = t1;
+            }
+            else{
+                print("Reached here");
+                if(t1>t2){
+                    t_y = t1;
+                }
+                else t_y = t2;
+            }
+//            else if(t1 <= 0 && t2 >= 0){
+//                t_y = t2
+//            }
+//            else if 
+            
+//            s = ut+ 0.5 a t**2;
+            print(t1 + " " + t2);
+            float d_x = runSpeed * t_y;
+            nextPosition.x += d_x - roofMiddle.GetComponent<Renderer>().bounds.size.x;
+            
+            
+            
+            //Equations of motion.
+            //s = -(jumpVelocity * jumpVelocity)/ (2f * gScale);
             //v - u = at
             //s = ut+ 0.5 a t**2;
             //v**2 -u**2 = 2*a*s;
@@ -82,6 +129,8 @@ public class Building : MonoBehaviour
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
             nextPosition.x  += (roofCornerLeft.GetComponent<Renderer>().bounds.size.x + gap);
             newTile.transform.parent = gameObject.transform;
+            
+            AllTiles.Add(newTile);
         }
         
         //Create middle tiles.
@@ -94,6 +143,9 @@ public class Building : MonoBehaviour
             
             //Set parent to Generator.
             newTile.transform.parent = gameObject.transform;
+            
+            //Add to list.
+            AllTiles.Add(newTile);
         }
         
         //Create right tile.
@@ -103,8 +155,11 @@ public class Building : MonoBehaviour
             newTile.transform.parent = gameObject.transform;
             nextPosition.x  += (roofCornerLeft.GetComponent<Renderer>().bounds.size.x + gap);
             
+            //Flip tile here.
             newTile.GetComponent<SpriteRenderer>().flipX = true;
-//            newTile.transform.localScale = -newTile.transform.localScale.x;
+            
+            //Add to list.
+            AllTiles.Add(newTile);
             
         }
         rightMostPoint.x = newTile.GetComponent<Renderer>().bounds.size.x/2f + newTile.transform.position.x;
