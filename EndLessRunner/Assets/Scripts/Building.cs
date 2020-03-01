@@ -76,7 +76,6 @@ public class Building : MonoBehaviour
             float t_y = 0;
             
             if(t1 < 0 || t2 < 0){
-                print("Reached here");
                 //Calculate if either is negative.
                 if(t1< 0&& t2<0){
                     print("Error");
@@ -88,7 +87,6 @@ public class Building : MonoBehaviour
                     t_y = t1;
             }
             else{
-                print("Reached here");
                 if(t1>t2){
                     t_y = t1;
                 }
@@ -100,7 +98,6 @@ public class Building : MonoBehaviour
 //            else if 
             
 //            s = ut+ 0.5 a t**2;
-            print(t1 + " " + t2);
             float d_x = runSpeed * t_y;
             nextPosition.x += d_x - roofMiddle.GetComponent<Renderer>().bounds.size.x;
             

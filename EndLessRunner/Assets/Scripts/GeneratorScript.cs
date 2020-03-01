@@ -1,125 +1,86 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.Tilemaps;
 
 public class GeneratorScript : MonoBehaviour
 {
-    //Building assets.
+    
     public GameObject player;
     
-    public List<GameObject> buildings;
-    
-    public GameObject Player;
+    //Settlement assets.
+    public List<GameObject> settlements;
     
     //Private assets.
     [SerializeField]
-    float distanceTravelled = 0f;
-    Building tempBuildingScript;
-    GameObject tempSelectedBuilding;
-    Building tempPreviousBuildingScript;
+    float distance = 0f;
     
-    [SerializeField]
-    int totalFrequencyWeight = 0;
-    [SerializeField]
-    int selectedWeight = 0;
+    [HideInInspector]
+    public GameObject previousSettlement;
     
-    GameObject previousBuilding;
-    List<GameObject> AllSettlementsList;
+    //Used while choosing new settlement.
+    private Weight settlementWeightCalculator;
+    private GameObject chosenSettlement;
     
-//    public bool alwaysNextUnique;
-    
+    private List<GameObject> AllStartedSettlementList;
+//    List<GameObject> AllSettlementsList;
+
     void Start(){
-        AllSettlementsList = new List<GameObject>();
+//        AllSettlementsList = new List<GameObject>();
         
-        CreateNewBuilding();
+        settlementWeightCalculator = new Weight();
+        AllStartedSettlementList = new List<GameObject>();
+        CreateNewSettlement();
     }
     
     void FixedUpdate(){
-        //Check if more building placement is necessary.
+        //Check if settlement needs to be destroyed.
+        //code here.
         
-        Vector2 lowerLeft = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-        Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        
-        //Remove Buildings that went outside of view.
-        if(AllSettlementsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
-            GameObject firstBuilding = AllSettlementsList[0];
-            AllSettlementsList.RemoveAt(0);
-            Destroy(firstBuilding);
+        if(AllStartedSettlementList[0].GetComponent<Settlement>().allBuildingsDeleted){
+            GameObject firstSettlement = AllStartedSettlementList[0];
+            AllStartedSettlementList.RemoveAt(0);
+            Destroy(firstSettlement);
         }
         
-        // Create new buildings.
-        tempPreviousBuildingScript = previousBuilding.GetComponent<Building>();
-        if(tempPreviousBuildingScript.rightMostPoint.x < upperRight.x)
-             CreateNewBuilding();
+        //Create new settlements.
+        if(previousSettlement.GetComponent<Settlement>().Finished())
+            CreateNewSettlement();
     }
     
-    void CalculateWeight(){
-        int count = buildings.Count;
+    void ChooseNewSettlement(){
+        int count = settlements.Count;
         
-        List<int> frequencyWeightList = new List<int>();
-        
-        int tempFrequency;
-        
-        //Calculate total weight, and store all weights in list.
+        //Choose settlement code.
         for (int i = 0; i < count; i++){
-            tempFrequency = buildings[i].GetComponent<Building>().frequencyWeight;
-            totalFrequencyWeight += tempFrequency;
-            frequencyWeightList.Add(tempFrequency);
+            //Check if distance condition for settlement is met. 
+            if ( distance >= settlements[i].GetComponent<Settlement>().reachDistance )
+                settlementWeightCalculator.Add(settlements[i].GetComponent<Settlement>().frequencyWeight);
         }
         
-        //Randomly Select weight.
-        selectedWeight = Random.Range(1, totalFrequencyWeight + 1);
+        int index = settlementWeightCalculator.Pick();
         
-        //This is where we select the building based on their weight;
-        totalFrequencyWeight = 0;
-        for (int i = 0; i < count; i++){
-            totalFrequencyWeight += frequencyWeightList[i];
-            if (totalFrequencyWeight >= selectedWeight){
-                //Now building matches selected weight.
-                //select building.
-                tempSelectedBuilding = buildings[i];
-                return;
-            }
-            
-            //If none selected.
-            if (i == count -1){
-                print("Now buildings were selected.");
-            }
-        }
+        //Clear calculator for next use.
+        settlementWeightCalculator.Clear();
+        
+        chosenSettlement = settlements[index];
     }
-    
-    void CreateNewBuilding(){
-        
-        //Select buildings based on their weight.
-        CalculateWeight();
-        
-        //building type should not be repeated.
-//        if (alwaysNextUnique == true)
-//            if(previousBuilding != null)
-//                while(previousBuilding.GetComponent<Building>().ID == tempSelectedBuilding.GetComponent<Building>().ID)
-//                    CalculateWeight();
-//            else CalculateWeight();
-//        else CalculateWeight();
 
-        //Select Building type first.
-        GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
-        tempBuildingScript = newBuilding.GetComponent<Building>();
-        Vector2 position = newBuilding.transform.position;
+    void CreateNewSettlement(){
+        ChooseNewSettlement();
         
-        //SetBuilding Transform.
-        newBuilding.transform.parent = gameObject.transform;
+        GameObject newSettlement = Instantiate(chosenSettlement, gameObject.transform.position, Quaternion.identity);
+        Settlement newSettlementScript = newSettlement.GetComponent<Settlement>();
         
-        //Now let building create its contents.
-        tempBuildingScript.Parent = gameObject;
-        tempBuildingScript.previousBuilding = previousBuilding;
-        tempBuildingScript.Player = Player;
-        tempBuildingScript.CreateContent();
+        //Set Settlement Transform.
+        newSettlement.transform.parent = gameObject.transform;
         
-        previousBuilding = newBuilding;
+        //Now let settlement start.
+        newSettlementScript.parent = gameObject;
+        newSettlementScript.previousSettlement = previousSettlement;
+        newSettlementScript.player = player;
+        newSettlementScript.StartSettlement();
         
-        //Finally add it to building list, to handle deletion.
-        AllSettlementsList.Add(newBuilding);
+        previousSettlement = newSettlement;
+        AllStartedSettlementList.Add(newSettlement);
     }
-    
 }
