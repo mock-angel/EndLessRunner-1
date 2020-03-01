@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 //using UnityEngine.Tilemaps;
 
-public class GeneratorScript : MonoBehaviour
+public class GeneratorScript_Old : MonoBehaviour
 {
     //Building assets.
     public GameObject player;
@@ -25,12 +25,10 @@ public class GeneratorScript : MonoBehaviour
     int selectedWeight = 0;
     
     GameObject previousBuilding;
-    List<GameObject> AllSettlementsList;
-    
-//    public bool alwaysNextUnique;
+    List<GameObject> AllBuildingsList;
     
     void Start(){
-        AllSettlementsList = new List<GameObject>();
+        AllBuildingsList = new List<GameObject>();
         
         CreateNewBuilding();
     }
@@ -42,9 +40,9 @@ public class GeneratorScript : MonoBehaviour
         Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         
         //Remove Buildings that went outside of view.
-        if(AllSettlementsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
-            GameObject firstBuilding = AllSettlementsList[0];
-            AllSettlementsList.RemoveAt(0);
+        if(AllBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
+            GameObject firstBuilding = AllBuildingsList[0];
+            AllBuildingsList.RemoveAt(0);
             Destroy(firstBuilding);
         }
         
@@ -95,13 +93,10 @@ public class GeneratorScript : MonoBehaviour
         CalculateWeight();
         
         //building type should not be repeated.
-//        if (alwaysNextUnique == true)
-//            if(previousBuilding != null)
-//                while(previousBuilding.GetComponent<Building>().ID == tempSelectedBuilding.GetComponent<Building>().ID)
-//                    CalculateWeight();
-//            else CalculateWeight();
+//        if(previousBuilding != null)
+//            while(previousBuilding.GetComponent<Building>().ID == previousBuilding.GetComponent<Building>().ID)
+//                CalculateWeight();
 //        else CalculateWeight();
-
         //Select Building type first.
         GameObject newBuilding = GameObject.Instantiate(tempSelectedBuilding, gameObject.transform.position, Quaternion.identity);
         tempBuildingScript = newBuilding.GetComponent<Building>();
@@ -119,7 +114,7 @@ public class GeneratorScript : MonoBehaviour
         previousBuilding = newBuilding;
         
         //Finally add it to building list, to handle deletion.
-        AllSettlementsList.Add(newBuilding);
+        AllBuildingsList.Add(newBuilding);
     }
     
 }

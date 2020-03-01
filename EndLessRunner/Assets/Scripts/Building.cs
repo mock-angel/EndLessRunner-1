@@ -26,6 +26,8 @@ public class Building : MonoBehaviour
     
     public LayerMask groundLayer;
     
+    public int ID = 0;
+    
     //Private use.
     int tileCount;
     List<GameObject> AllTiles  = new List<GameObject>();
