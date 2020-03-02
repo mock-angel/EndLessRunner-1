@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4495567185309852146}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.846714, y: 1.4051259, z: -1.3701959}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -46,7 +46,6 @@ MonoBehaviour:
   SettlementName: Settlement
   frequencyWeight: 1
   reachDistance: 0
-  numberOfBuildings: 5
   buildings:
   - {fileID: 1086788082497338361, guid: 7e5f64c52c39a4f2aa03e5c49668b344, type: 3}
   parent: {fileID: 0}
@@ -56,3 +55,4 @@ MonoBehaviour:
   maxBuildingCount: 10
   previousBuilding: {fileID: 0}
   allBuildingsDeleted: 0
+  buildingCountLimit: 0
