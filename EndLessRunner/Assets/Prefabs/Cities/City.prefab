@@ -43,16 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5243f390a81eea2dc9eea5cc80d22dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SettlementName: City
+  SettlementName: Red City
   frequencyWeight: 1
   reachDistance: 0
-  numberOfBuildings: 5
   buildings:
   - {fileID: 1086788082497338361, guid: 7e5f64c52c39a4f2aa03e5c49668b344, type: 3}
   parent: {fileID: 0}
   player: {fileID: 0}
   previousSettlement: {fileID: 0}
-  minBuildingCount: 6
-  maxBuildingCount: 10
+  minBuildingCount: 4
+  maxBuildingCount: 6
   previousBuilding: {fileID: 0}
   allBuildingsDeleted: 0
+  buildingCountLimit: 0
