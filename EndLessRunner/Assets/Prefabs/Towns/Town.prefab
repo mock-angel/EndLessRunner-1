@@ -43,16 +43,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5243f390a81eea2dc9eea5cc80d22dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SettlementName: Town
+  SettlementName: Yellow Town
   frequencyWeight: 1
   reachDistance: 0
-  numberOfBuildings: 5
   buildings:
   - {fileID: 4167197922567063300, guid: dd19612575d0d7fb0955345e2ed85a4a, type: 3}
   parent: {fileID: 0}
   player: {fileID: 0}
   previousSettlement: {fileID: 0}
-  minBuildingCount: 6
-  maxBuildingCount: 10
+  minBuildingCount: 4
+  maxBuildingCount: 6
   previousBuilding: {fileID: 0}
   allBuildingsDeleted: 0
+  buildingCountLimit: 0
