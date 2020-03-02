@@ -7,11 +7,11 @@ public class Settlement : MonoBehaviour
     public string SettlementName = "Settlement Name";
     public int frequencyWeight = 1;
     public int reachDistance = 0;
-    public int numberOfBuildings = 5;
+//    public int numberOfBuildings = 5;
     public List<GameObject> buildings;
     
     [HideInInspector]
-    public GameObject parent;
+    public GeneratorScript parent;
     [HideInInspector]
     public GameObject player;
     
@@ -36,6 +36,7 @@ public class Settlement : MonoBehaviour
     private List<GameObject> AllCreatedBuildingsList;
     
     private int buildingCount = 0;
+    [SerializeField]
     private int buildingCountLimit;
     
     public void StartSettlement(){
@@ -78,6 +79,12 @@ public class Settlement : MonoBehaviour
         if(finishedLayingBuildings == true)
             return true;
         else return false;
+    }
+    
+    public bool checkAvailability(GeneratorScript gen){
+        if (gen.distance >= reachDistance)
+            return true;
+        return false;
     }
     
     void ChooseNewBuilding(){
