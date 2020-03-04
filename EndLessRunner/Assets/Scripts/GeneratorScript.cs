@@ -26,7 +26,7 @@ public class GeneratorScript : MonoBehaviour
     private List<GameObject> CapableSettlementsList;
     private List<GameObject> AllStartedSettlementList;
 //    List<GameObject> AllSettlementsList;
-
+    
     void Start(){
 //        AllSettlementsList = new List<GameObject>();
         
