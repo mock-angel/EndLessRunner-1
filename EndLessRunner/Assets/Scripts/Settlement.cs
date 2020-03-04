@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using MyAttributes;
+
 public class Settlement : MonoBehaviour
 {
     public string SettlementName = "Settlement Name";
@@ -23,7 +25,7 @@ public class Settlement : MonoBehaviour
     
     //TODO: rename all Building variables of game object to BuildingObj.
     [HideInInspector]
-    public GameObject previousBuilding; // TODO: rename to prevBuilding
+    public GameObject previousBuilding;
     private bool finalBuildingCreated;
     
     private bool finishedLayingBuildings = false;
@@ -38,6 +40,12 @@ public class Settlement : MonoBehaviour
     private int buildingCount = 0;
     [SerializeField]
     private int buildingCountLimit;
+    
+    public bool spawnCoins = true;
+    [ConditionalField("spawnCoins")]
+    public int minCoinsSpawnCount = 0;
+    [ConditionalField("spawnCoins")]
+    public int maxCoinsSpawnCount = 10;
     
     public void StartSettlement(){
         AllCreatedBuildingsList = new List<GameObject>();
@@ -75,13 +83,18 @@ public class Settlement : MonoBehaviour
             
     }
     
+    
     public bool Finished(){
+        //returns true if all buildings have been placed.
+        
         if(finishedLayingBuildings == true)
             return true;
         else return false;
     }
     
     public bool checkAvailability(GeneratorScript gen){
+        // returns true if the generator can place this settlement.
+        
         if (gen.distance >= reachDistance)
             return true;
         return false;
@@ -106,6 +119,8 @@ public class Settlement : MonoBehaviour
     }
     
     void CreateNewBuilding(){
+        //Creates new Building.
+        
         ChooseNewBuilding();
         
         GameObject newBuilding = GameObject.Instantiate(toCreateBuilding, gameObject.transform.position, Quaternion.identity);

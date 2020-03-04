@@ -56,3 +56,6 @@ MonoBehaviour:
   previousBuilding: {fileID: 0}
   allBuildingsDeleted: 0
   buildingCountLimit: 0
+  spawnCoins: 1
+  minCoinsSpawnCount: 0
+  maxCoinsSpawnCount: 10
