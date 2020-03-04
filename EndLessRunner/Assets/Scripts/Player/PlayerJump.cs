@@ -11,7 +11,9 @@ public class PlayerJump : MonoBehaviour
     void Update()
     {
 //        print("pressed");
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+
+        bool androidTouchDown = Input.GetMouseButtonDown(0);//(Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began);
+        if ((Input.GetButtonDown("Jump") || androidTouchDown) && IsGrounded())
         {
             print("pressed");
             GetComponent<Rigidbody2D>().velocity = Vector2.up * jumpVelocity;
