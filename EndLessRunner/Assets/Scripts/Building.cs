@@ -120,6 +120,7 @@ public class Building : MonoBehaviour
         
         //Create tiles.
         nextPosition.x += roofMiddle.GetComponent<Renderer>().bounds.size.x/2f;
+        nextPosition.y -= roofMiddle.GetComponent<Renderer>().bounds.size.y/2f;
         float gap = 0.0f;
         
         GameObject newTile;
