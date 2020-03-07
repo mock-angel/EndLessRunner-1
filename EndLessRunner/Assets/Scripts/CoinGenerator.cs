@@ -36,8 +36,8 @@ public class CoinGenerator : MonoBehaviour
             float a = 48.02f;
             float b = 98f;
             float c = 46f;
-            float d = -1f;
-            PolynomialSolver.solve4(a, b, c, d);
+            float e = -1f;
+            PolynomialSolver.solve4(1, -7, 5, 31, -30);
         }
     }
 
