@@ -18,6 +18,9 @@ public class CoinGenerator : MonoBehaviour
     
     public Settlement settlementScript;
     
+    public float distanceBetweenCoins = 1f;
+    
+    
     void Start(){
         //settlementScript = gameObject.GetComponent<Settlement>();
     }
@@ -29,6 +32,12 @@ public class CoinGenerator : MonoBehaviour
             Vector2 vec = prevBuilding.GetComponent<Building>().rightMostPoint;//prevBuilding.transform.position;
             vec.y += 1;
             Instantiate(CoinsPrefab, vec, Quaternion.identity);
+            
+            float a = 48.02f;
+            float b = 98f;
+            float c = 46f;
+            float d = -1f;
+            PolynomialSolver.solve4(a, b, c, d);
         }
     }
 
@@ -38,3 +47,6 @@ public class CoinGenerator : MonoBehaviour
         
     }
 }
+//int P = 8ac - 3b*b
+//int R = b*b*b - 4*a*b*c
+//
