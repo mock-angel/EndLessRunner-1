@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using MyAttributes;
+
 public class Settlement : MonoBehaviour
 {
     public string SettlementName = "Settlement Name";
@@ -23,7 +25,7 @@ public class Settlement : MonoBehaviour
     
     //TODO: rename all Building variables of game object to BuildingObj.
     [HideInInspector]
-    public GameObject previousBuilding; // TODO: rename to prevBuilding
+    public GameObject previousBuilding;
     private bool finalBuildingCreated;
     
     private bool finishedLayingBuildings = false;
@@ -39,6 +41,14 @@ public class Settlement : MonoBehaviour
     [SerializeField]
     private int buildingCountLimit;
     
+    private CoinGenerator coinGenerator;
+    
+//    public bool spawnCoins = true;
+//    [ConditionalField("spawnCoins")]
+//    public int minCoinsSpawnCount = 0;
+//    [ConditionalField("spawnCoins")]
+//    public int maxCoinsSpawnCount = 10;
+    
     public void StartSettlement(){
         AllCreatedBuildingsList = new List<GameObject>();
         
@@ -49,6 +59,9 @@ public class Settlement : MonoBehaviour
         if(previousSettlement != null)
             previousBuilding = previousSettlement.GetComponent<Settlement>().previousBuilding;
         CreateNewBuilding();
+        
+        coinGenerator = gameObject.GetComponent<CoinGenerator>();
+        coinGenerator.settlementScript = this; /// check this.
     }
     
     void FixedUpdate()
@@ -75,13 +88,18 @@ public class Settlement : MonoBehaviour
             
     }
     
+    
     public bool Finished(){
+        //returns true if all buildings have been placed.
+        
         if(finishedLayingBuildings == true)
             return true;
         else return false;
     }
     
     public bool checkAvailability(GeneratorScript gen){
+        // returns true if the generator can place this settlement.
+        
         if (gen.distance >= reachDistance)
             return true;
         return false;
@@ -106,6 +124,8 @@ public class Settlement : MonoBehaviour
     }
     
     void CreateNewBuilding(){
+        //Creates new Building.
+        
         ChooseNewBuilding();
         
         GameObject newBuilding = GameObject.Instantiate(toCreateBuilding, gameObject.transform.position, Quaternion.identity);
@@ -120,9 +140,8 @@ public class Settlement : MonoBehaviour
         newBuildingScript.Parent = gameObject;
         newBuildingScript.previousBuilding = previousBuilding;
         newBuildingScript.Player = player; //TODO: Change from Player to player.
+        newBuildingScript.mainGenerator = parent;
         newBuildingScript.CreateContent();
-        
-        previousBuilding = newBuilding;
         
         //Finally add it to building list, to handle deletion.
         AllCreatedBuildingsList.Add(newBuilding);
@@ -131,5 +150,10 @@ public class Settlement : MonoBehaviour
         
         if(buildingCount >= buildingCountLimit)
             finishedLayingBuildings = true;
+        
+        //Create all game props here.
+        gameObject.GetComponent<CoinGenerator>().GenerateCoins();
+        
+        previousBuilding = newBuilding;
     }
 }
