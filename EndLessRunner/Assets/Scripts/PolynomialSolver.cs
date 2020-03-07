@@ -8,7 +8,7 @@ public class PolynomialSolver : MonoBehaviour
             //
         float P = 8*a*c - 3*b*b;
         float R = b*b*b + 8*d*a*a - 4*a*b*c;//;
-        float del0 = c*c + 12*a*e;// - 3*b*d
+        float del0 = c*c - 3*b*d + 12*a*e;// 
         float del1 = 2*c*c*c - 9*b*c*d + 27*b*b*e + 27*a*d*d - 72*a*c*e;// ;
         
         print("P = "+P+", R= "+R+", del0= "+del0+", del1= "+del1);
