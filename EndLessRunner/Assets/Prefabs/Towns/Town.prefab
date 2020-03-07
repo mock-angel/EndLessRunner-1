@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4130460945985193497}
   - component: {fileID: 4130460945985193494}
-  m_Layer: 0
+  - component: {fileID: -3087775941046385414}
+  m_Layer: 10
   m_Name: Town
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,3 +57,22 @@ MonoBehaviour:
   previousBuilding: {fileID: 0}
   allBuildingsDeleted: 0
   buildingCountLimit: 0
+--- !u!114 &-3087775941046385414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4130460945985193496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4745c7f2418485ed899911f6318d0c4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CoinsPrefab: {fileID: 4004513649011324, guid: b5a33a210cbbce58d8d5477dbf70e9b2,
+    type: 3}
+  spawnCoins: 1
+  minCoinsSpawnCount: 0
+  maxCoinsSpawnCount: 10
+  settlementScript: {fileID: 4130460945985193494}
+  distanceBetweenCoins: 1

@@ -27,13 +27,23 @@ public class GeneratorScript : MonoBehaviour
     private List<GameObject> AllStartedSettlementList;
 //    List<GameObject> AllSettlementsList;
     
+    public int distancePerSign = 200;
+    private int nextSignAtDistance = 0;
+    private float prevDistanceProbed = 0;
+    
+    public GameObject signPrefab;
+    private List<GameObject> signsList;
+    
     void Start(){
 //        AllSettlementsList = new List<GameObject>();
+        signsList = new List<GameObject>();
         
         settlementWeightCalculator = new Weight();
         CapableSettlementsList = new List<GameObject>();
         AllStartedSettlementList = new List<GameObject>();
         CreateNewSettlement();
+        
+        nextSignAtDistance = distancePerSign;
     }
     
     void FixedUpdate(){
@@ -100,5 +110,22 @@ public class GeneratorScript : MonoBehaviour
         
         previousSettlement = newSettlement;
         AllStartedSettlementList.Add(newSettlement);
+    }
+    
+    //This code here is for sign.
+    public void probeReach(Vector2 vec){
+        
+        //Add sign creation here after sign requirement check.
+        if(vec.x > nextSignAtDistance){
+            vec.x = nextSignAtDistance;
+            vec.y += 1;
+            
+            GameObject newSign = Instantiate(signPrefab, vec, Quaternion.identity);
+            signsList.Add(newSign);
+            newSign.GetComponent<SignScript>().SetMeters((int)vec.x);
+            
+            nextSignAtDistance += distancePerSign;
+        }
+//        prevDistanceProbed = vec.x;
     }
 }

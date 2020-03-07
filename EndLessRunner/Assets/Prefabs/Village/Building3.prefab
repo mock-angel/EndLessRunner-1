@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1086788082497338363}
   - component: {fileID: 1086788082497338360}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Building3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,3 +59,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   ID: 3
+  mainGenerator: {fileID: 0}
