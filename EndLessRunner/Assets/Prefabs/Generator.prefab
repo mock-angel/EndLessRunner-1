@@ -50,3 +50,6 @@ MonoBehaviour:
   - {fileID: 4130460945985193496, guid: 45778edd6494b91e8b9a919c15f7127a, type: 3}
   distance: 0
   previousSettlement: {fileID: 0}
+  distancePerSign: 100
+  signPrefab: {fileID: 7351866158523543282, guid: aefa99fec3933f8b89cbd6db73db7c25,
+    type: 3}
