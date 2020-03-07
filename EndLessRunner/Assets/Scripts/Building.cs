@@ -23,10 +23,15 @@ public class Building : MonoBehaviour
     public GameObject previousBuilding;
     
     public Vector2 rightMostPoint;
+    public Vector2 leftMostPoint;
+    public Vector2 prevRightMostPoint;
     
     public LayerMask groundLayer;
     
     public int ID = 0;
+    
+    //[HideInInspector]
+    //public List<GameObject> AllTilesList;
     
     //Private use.
     int tileCount;
@@ -40,12 +45,15 @@ public class Building : MonoBehaviour
     
     public void CreateContent(){
         
+        leftMostPoint = new Vector2();
+        
         print("New building created");
         
         Vector2 nextPosition = new Vector2();
         nextPosition.x = nextPosition.y = 0;// Make sure vector is set to 0;
         if (previousBuilding != null){
             Building bScript = previousBuilding.GetComponent<Building>();
+            prevRightMostPoint = bScript.rightMostPoint;
             nextPosition.x = bScript.rightMostPoint.x;
             
             //Check jump stats.
@@ -114,6 +122,9 @@ public class Building : MonoBehaviour
             //Calculate y component.
             
         }
+        
+        //
+        leftMostPoint = nextPosition;
         
         //Randomly decide tileCount.
         tileCount = Random.Range(minimumTilesCount, maximumTilesCount + 1);

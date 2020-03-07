@@ -17,7 +17,7 @@ public class CoinGenerator : MonoBehaviour
     public int maxCoinsSpawnCount = 10; 
     
     public Settlement settlementScript;
-    
+    public Building buildingScript;
     public float distanceBetweenCoins = 1f;
     
     
@@ -29,15 +29,23 @@ public class CoinGenerator : MonoBehaviour
         
         GameObject prevBuilding = settlementScript.previousBuilding;
         if(prevBuilding != null){
-            Vector2 vec = prevBuilding.GetComponent<Building>().rightMostPoint;//prevBuilding.transform.position;
+            Building buildingScript = prevBuilding.GetComponent<Building>();
+            Vector2 RightMostPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
+            Vector2 vec = RightMostPoint;
             vec.y += 1;
+            
+            Vector2 LeftMostPoint = buildingScript.leftMostPoint;
+            Vector2 prevRightMostPoint = buildingScript.prevRightMostPoint;
+            
             Instantiate(CoinsPrefab, vec, Quaternion.identity);
             
-            float a = 48.02f;
-            float b = 98f;
-            float c = 46f;
-            float e = -1f;
-            PolynomialSolver.solve4(1, -7, 5, 31, -30);
+            
+            
+//            float a = 48.02f;
+//            float b = -98f;
+//            float c = 46f;
+//            float e = -1f;
+//            PolynomialSolver.solve4(a, b, c, 0, e);
         }
     }
 

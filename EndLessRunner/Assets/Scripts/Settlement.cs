@@ -152,6 +152,7 @@ public class Settlement : MonoBehaviour
             finishedLayingBuildings = true;
         
         //Create all game props here.
+        gameObject.GetComponent<CoinGenerator>().buildingScript = newBuildingScript;
         gameObject.GetComponent<CoinGenerator>().GenerateCoins();
         
         previousBuilding = newBuilding;
