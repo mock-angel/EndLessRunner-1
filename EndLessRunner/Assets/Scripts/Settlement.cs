@@ -62,7 +62,6 @@ public class Settlement : MonoBehaviour
         
         coinGenerator = gameObject.GetComponent<CoinGenerator>();
         coinGenerator.settlementScript = this; /// check this.
-        
     }
     
     void FixedUpdate()
@@ -141,6 +140,7 @@ public class Settlement : MonoBehaviour
         newBuildingScript.Parent = gameObject;
         newBuildingScript.previousBuilding = previousBuilding;
         newBuildingScript.Player = player; //TODO: Change from Player to player.
+        newBuildingScript.mainGenerator = parent;
         newBuildingScript.CreateContent();
         
         //Finally add it to building list, to handle deletion.
@@ -150,7 +150,6 @@ public class Settlement : MonoBehaviour
         
         if(buildingCount >= buildingCountLimit)
             finishedLayingBuildings = true;
-        
         
         //Create all game props here.
         gameObject.GetComponent<CoinGenerator>().GenerateCoins();
