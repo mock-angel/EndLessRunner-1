@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4167197922567063298}
   - component: {fileID: 4167197922567063299}
   - component: {fileID: 6158894295451099630}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Building2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,6 +60,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   ID: 2
+  mainGenerator: {fileID: 0}
 --- !u!114 &6158894295451099630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,3 +78,5 @@ MonoBehaviour:
   spawnCoins: 1
   minCoinsSpawnCount: 0
   maxCoinsSpawnCount: 10
+  settlementScript: {fileID: 0}
+  distanceBetweenCoins: 1

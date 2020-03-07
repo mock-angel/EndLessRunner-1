@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4130460945985193497}
   - component: {fileID: 4130460945985193494}
   - component: {fileID: -3087775941046385414}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Town
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,3 +75,4 @@ MonoBehaviour:
   minCoinsSpawnCount: 0
   maxCoinsSpawnCount: 10
   settlementScript: {fileID: 4130460945985193494}
+  distanceBetweenCoins: 1
