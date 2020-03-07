@@ -250,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.901573, y: 1.51, z: -10}
+  m_LocalPosition: {x: 17.255306, y: 1.51, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -572,7 +572,7 @@ PrefabInstance:
     - target: {fileID: 1281398895316977378, guid: 9708c44fcc156ca88b4a34acd70ef19f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.901573
+      value: 17.255306
       objectReference: {fileID: 0}
     - target: {fileID: 1281398895316977378, guid: 9708c44fcc156ca88b4a34acd70ef19f,
         type: 3}
@@ -782,6 +782,17 @@ PrefabInstance:
       propertyPath: thisGameData
       value: 
       objectReference: {fileID: 295253739}
+    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
+        type: 3}
+      propertyPath: signPrefab
+      value: 
+      objectReference: {fileID: 7351866158523543282, guid: aefa99fec3933f8b89cbd6db73db7c25,
+        type: 3}
+    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
+        type: 3}
+      propertyPath: distancePerSign
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 777ff301071441a97adbd3d8aa3c5bc0, type: 3}
 --- !u!1001 &9079406582478500053
