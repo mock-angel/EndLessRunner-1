@@ -760,6 +760,7 @@ GameObject:
   - component: {fileID: 8492098651411742702}
   - component: {fileID: 8492098651411742703}
   - component: {fileID: 8492098651411742700}
+  - component: {fileID: 1502704213559446748}
   m_Layer: 5
   m_Name: HUDCanvas - Android
   m_TagString: Untagged
@@ -848,6 +849,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1502704213559446748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8492098651411742701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d9eca884e5e7035c829226a26afb37a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8492098651426302794
 GameObject:
   m_ObjectHideFlags: 0
