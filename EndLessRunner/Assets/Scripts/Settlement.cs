@@ -41,11 +41,13 @@ public class Settlement : MonoBehaviour
     [SerializeField]
     private int buildingCountLimit;
     
-    public bool spawnCoins = true;
-    [ConditionalField("spawnCoins")]
-    public int minCoinsSpawnCount = 0;
-    [ConditionalField("spawnCoins")]
-    public int maxCoinsSpawnCount = 10;
+    private CoinGenerator coinGenerator;
+    
+//    public bool spawnCoins = true;
+//    [ConditionalField("spawnCoins")]
+//    public int minCoinsSpawnCount = 0;
+//    [ConditionalField("spawnCoins")]
+//    public int maxCoinsSpawnCount = 10;
     
     public void StartSettlement(){
         AllCreatedBuildingsList = new List<GameObject>();
@@ -57,6 +59,9 @@ public class Settlement : MonoBehaviour
         if(previousSettlement != null)
             previousBuilding = previousSettlement.GetComponent<Settlement>().previousBuilding;
         CreateNewBuilding();
+        
+        coinGenerator = gameObject.GetComponent<CoinGenerator>();
+        coinGenerator.settlementScript = this; /// check this.
     }
     
     void FixedUpdate()
@@ -135,9 +140,8 @@ public class Settlement : MonoBehaviour
         newBuildingScript.Parent = gameObject;
         newBuildingScript.previousBuilding = previousBuilding;
         newBuildingScript.Player = player; //TODO: Change from Player to player.
+        newBuildingScript.mainGenerator = parent;
         newBuildingScript.CreateContent();
-        
-        previousBuilding = newBuilding;
         
         //Finally add it to building list, to handle deletion.
         AllCreatedBuildingsList.Add(newBuilding);
@@ -146,5 +150,10 @@ public class Settlement : MonoBehaviour
         
         if(buildingCount >= buildingCountLimit)
             finishedLayingBuildings = true;
+        
+        //Create all game props here.
+        gameObject.GetComponent<CoinGenerator>().GenerateCoins();
+        
+        previousBuilding = newBuilding;
     }
 }

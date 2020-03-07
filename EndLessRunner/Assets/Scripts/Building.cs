@@ -36,6 +36,8 @@ public class Building : MonoBehaviour
 //        AllTiles = new List<GameObject>();
 //    }
     
+    public GeneratorScript mainGenerator;
+    
     public void CreateContent(){
         
         print("New building created");
@@ -166,5 +168,7 @@ public class Building : MonoBehaviour
         gameObject.transform.parent = Parent.transform;
 //        print(gameObject.GetComponent<Renderer>().bounds.size.x);
         
+        mainGenerator.probeReach(rightMostPoint);
     }
+
 }
