@@ -151,10 +151,11 @@ public class Settlement : MonoBehaviour
         if(buildingCount >= buildingCountLimit)
             finishedLayingBuildings = true;
         
+        //CoinGenerator.GenerateCoins() requires this variable to be updated.
+        previousBuilding = newBuilding;
+        
         //Create all game props here.
         gameObject.GetComponent<CoinGenerator>().buildingScript = newBuildingScript;
         gameObject.GetComponent<CoinGenerator>().GenerateCoins();
-        
-        previousBuilding = newBuilding;
     }
 }
