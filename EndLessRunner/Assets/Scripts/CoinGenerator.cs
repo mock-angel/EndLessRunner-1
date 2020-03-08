@@ -29,15 +29,44 @@ public class CoinGenerator : MonoBehaviour
         
         GameObject prevBuilding = settlementScript.previousBuilding;
         if(prevBuilding != null){
+            //Get the previous building's Building Script component.
             Building buildingScript = prevBuilding.GetComponent<Building>();
-            Vector2 RightMostPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
-            Vector2 vec = RightMostPoint;
-            vec.y += 1;
             
-            Vector2 LeftMostPoint = buildingScript.leftMostPoint;
-            Vector2 prevRightMostPoint = buildingScript.prevRightMostPoint;
+            //Get all required variables from buildingScript.
+            Vector2 prevRightMostSpawnPoint = buildingScript.prevRightMostPoint;
+            Vector2 LeftMostSwawnPoint = buildingScript.leftMostPoint;
+            Vector2 RightMostSpawnPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
             
-            Instantiate(CoinsPrefab, vec, Quaternion.identity);
+            /************************Jump CoinGenerator*************************/
+            float jumpDistance = LeftMostSwawnPoint.x - prevRightMostSpawnPoint.x;
+            
+            float runSpeed = settlementScript.player.GetComponent<PlayerMovement>().runSpeed;
+            float jumpVelocity = settlementScript.player.GetComponent<PlayerJump>().jumpVelocity;
+            float gScale = (settlementScript.player.GetComponent<Rigidbody2D>().gravityScale)*(-9.81f);
+            
+            Vector2 vec = prevRightMostSpawnPoint;
+            
+            //Modify spawn point.
+            prevRightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
+            RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            
+            float x = 1;
+            float t = x/runSpeed;
+            float y = 0;
+            for(int i = 0; i < 20; i++){
+                y = jumpVelocity*t + 0.5f*gScale*t*t;
+                vec.x = prevRightMostSpawnPoint.x + x;
+                vec.y = prevRightMostSpawnPoint.y + y;
+                Instantiate(CoinsPrefab, vec, Quaternion.identity);
+                
+                x += 1f;
+                t = x/runSpeed;
+                
+                if(x >= jumpDistance) break;
+            }
+            
+            /***********************Line CoinGenerator************************/
             
             
             
