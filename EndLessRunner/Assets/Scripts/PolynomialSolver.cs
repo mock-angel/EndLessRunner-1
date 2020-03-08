@@ -43,4 +43,32 @@ public class PolynomialSolver : MonoBehaviour
         if(x4>0) return x4;
         return 0;
     }
+    
+    static public float solve2(float a, float b, float c){
+        float x1 = (-b + Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
+        float x2 = (-b - Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
+        
+        float desirable_x = 0;
+        
+        //Now pick which of the two x is desirable.
+        if(x1 < 0 || x2 < 0){
+            //Calculate if either is negative.
+            if(x1< 0&& x2<0){
+                print("Error");
+                return 0;
+            }
+            if(x2 >= 0){
+                desirable_x = x2;
+            }else 
+                desirable_x = x1;
+        }
+        else{
+            if(x1>x2){
+                desirable_x = x1;
+            }
+            else desirable_x = x2;
+        }
+        
+        return desirable_x;
+    }
 }

@@ -80,33 +80,7 @@ public class Building : MonoBehaviour
             float b = jumpVelocity;
             float c = -y;
             
-            float t1 = (-b + Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
-            float t2 = (-b - Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
-            
-            float t_y = 0;
-            
-            if(t1 < 0 || t2 < 0){
-                //Calculate if either is negative.
-                if(t1< 0&& t2<0){
-                    print("Error");
-                    return;
-                }
-                if(t2 >= 0){
-                    t_y = t2;
-                }else 
-                    t_y = t1;
-            }
-            else{
-                if(t1>t2){
-                    t_y = t1;
-                }
-                else t_y = t2;
-            }
-//            else if(t1 <= 0 && t2 >= 0){
-//                t_y = t2
-//            }
-//            else if 
-            
+            float t_y = PolynomialSolver.solve2(a, b, c);
 //            s = ut+ 0.5 a t**2;
             float d_x = runSpeed * t_y;
             nextPosition.x += d_x - roofMiddle.GetComponent<Renderer>().bounds.size.x;
