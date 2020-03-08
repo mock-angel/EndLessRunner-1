@@ -51,6 +51,11 @@ public class CoinGenerator : MonoBehaviour
             LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
             RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
             
+            //Create new empty gameobject inside Building.
+            GameObject CoinsOBJ = new GameObject();//Instantiate(, new Vector2(0, 0), Quaternion.identity);
+            CoinsOBJ.transform.parent = prevBuilding.transform;
+            CoinsOBJ.name = "All Coins";
+            
             float x = 1;
             float t = x/runSpeed;
             float y = 0;
@@ -58,7 +63,8 @@ public class CoinGenerator : MonoBehaviour
                 y = jumpVelocity*t + 0.5f*gScale*t*t;
                 vec.x = prevRightMostSpawnPoint.x + x;
                 vec.y = prevRightMostSpawnPoint.y + y;
-                Instantiate(CoinsPrefab, vec, Quaternion.identity);
+                
+                Instantiate(CoinsPrefab, vec, Quaternion.identity).transform.parent = CoinsOBJ.transform;
                 
                 x += 1f;
                 t = x/runSpeed;
