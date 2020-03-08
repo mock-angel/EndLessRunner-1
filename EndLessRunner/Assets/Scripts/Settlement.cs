@@ -155,6 +155,13 @@ public class Settlement : MonoBehaviour
             finishedLayingBuildings = true;
         
         //Create all game props here.
+        //Place antennas and dishes if decided.
+        //Place Towers.
+        //Place TopHouses.
+        //Do tile props generation inside building?
+        //This way we know which building can do what.
+        
+        //Do coin generation always at the end.
         gameObject.GetComponent<CoinGenerator>().building = newBuilding;
         gameObject.GetComponent<CoinGenerator>().buildingScript = newBuildingScript;
         gameObject.GetComponent<CoinGenerator>().GenerateCoins();

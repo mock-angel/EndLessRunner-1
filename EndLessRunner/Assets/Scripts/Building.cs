@@ -17,13 +17,18 @@ public class Building : MonoBehaviour
     
     public List<GameObject> windowPrefabs;
     
+    [HideInInspector]
     public GameObject Player;
+    [HideInInspector]
     public GameObject Parent;
-    
+    [HideInInspector]
     public GameObject previousBuilding;
     
+    [HideInInspector]
     public Vector2 rightMostPoint;
+    [HideInInspector]
     public Vector2 leftMostPoint;
+    [HideInInspector]
     public Vector2 prevRightMostPoint;
     
     public LayerMask groundLayer;
@@ -32,13 +37,18 @@ public class Building : MonoBehaviour
     
     [HideInInspector]
     public Vector2 tileSize;
+//    [HideInInspector]
+//    public int coinsToPlace = 0;
+//    [HideInInspector]
+//    public int coinsPlaced = 0;
     
     //[HideInInspector]
     //public List<GameObject> AllTilesList;
     
     //Private use.
-    int tileCount;
-    List<GameObject> AllTiles  = new List<GameObject>();
+    private int tileCount;
+    private List<GameObject> AllTiles  = new List<GameObject>();
+    private List<GameObject> RoofTiles  = new List<GameObject>();
     
 //    void Start(){
 //        AllTiles = new List<GameObject>();
@@ -106,8 +116,6 @@ public class Building : MonoBehaviour
             
         }
         
-        
-        
         //Randomly decide tileCount.
         tileCount = Random.Range(minimumTilesCount, maximumTilesCount + 1);
         
@@ -126,6 +134,7 @@ public class Building : MonoBehaviour
             newTile.transform.parent = gameObject.transform;
             
             AllTiles.Add(newTile);
+            RoofTiles.Add(newTile);
         }
         
         //Create middle tiles.
@@ -141,6 +150,7 @@ public class Building : MonoBehaviour
             
             //Add to list.
             AllTiles.Add(newTile);
+            RoofTiles.Add(newTile);
         }
         
         //Create right tile.
@@ -155,14 +165,62 @@ public class Building : MonoBehaviour
             
             //Add to list.
             AllTiles.Add(newTile);
-            
+            RoofTiles.Add(newTile);
         }
         rightMostPoint.x = tileSize.x/2f + newTile.transform.position.x;
         rightMostPoint.y = tileSize.y/2f + newTile.transform.position.y;
         gameObject.transform.parent = Parent.transform;
 //        print(gameObject.GetComponent<Renderer>().bounds.size.x);
         
+        //Fill Tiles Below roof.
+        FillBelowTiles(20);
+        
         mainGenerator.probeReach(rightMostPoint);
+    }
+    
+    void FillBelowTiles(int stepsDeep){
+        Vector2 nextPosition = new Vector2();
+//        nextPosition.x = nextPosition.y = 0;
+        nextPosition = leftMostPoint;
+        nextPosition.x += tileSize.x/2f;
+        nextPosition.y -= tileSize.y*1.5f;
+        
+        float gap = 0.0f;
+        
+        int numberOfColumns = tileCount;
+        
+        GameObject newTile;
+        
+        for (int i = 0; i < stepsDeep; i++)
+        {
+            for (int j = 0; j < numberOfColumns; j++) {
+                newTile = Instantiate(roofMiddle, nextPosition, Quaternion.identity);
+                newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
+                //Prepare next position.
+                nextPosition.x  += (tileSize.x + gap);
+                
+                //Set parent to Generator.
+                newTile.transform.parent = gameObject.transform;
+                
+                //Add to list.
+                AllTiles.Add(newTile);
+            }
+            
+            nextPosition.x = leftMostPoint.x + tileSize.x/2f;
+            nextPosition.y -= tileSize.y;
+        }
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
