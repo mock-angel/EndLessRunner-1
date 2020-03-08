@@ -17,27 +17,41 @@ public class CoinGenerator : MonoBehaviour
     public int maxCoinsSpawnCount = 10; 
     
     public Settlement settlementScript;
+    public GameObject building;
     public Building buildingScript;
     public float distanceBetweenCoins = 1f;
     
+    //All of these are to be set from within GenerateCoins() method
+    private GameObject prevBuilding;
+//    private Building buildingScript;
     
-    void Start(){
-        //settlementScript = gameObject.GetComponent<Settlement>();
-    }
+    private Vector2 prevRightMostSpawnPoint;
+    private Vector2 LeftMostSwawnPoint;
+    private Vector2 RightMostSpawnPoint;//prevBuilding.transform.position;
     
     public void GenerateCoins(){
         
-        GameObject prevBuilding = settlementScript.previousBuilding;
-        if(prevBuilding != null){
-            //Get the previous building's Building Script component.
-            Building buildingScript = prevBuilding.GetComponent<Building>();
+//        prevBuilding = settlementScript.previousBuilding;
+        
+        if(buildingScript != null){
+//            //Get the previous building's Building Script component.
+//            buildingScript = prevBuilding.GetComponent<Building>();
             
             //Get all required variables from buildingScript.
-            Vector2 prevRightMostSpawnPoint = buildingScript.prevRightMostPoint;
-            Vector2 LeftMostSwawnPoint = buildingScript.leftMostPoint;
-            Vector2 RightMostSpawnPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
+            prevRightMostSpawnPoint = buildingScript.prevRightMostPoint;
+            LeftMostSwawnPoint = buildingScript.leftMostPoint;
+            RightMostSpawnPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
             
-            /************************Jump CoinGenerator*************************/
+            //Modify spawn point.
+            prevRightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
+            RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            GenerateCornerJumpCoins();
+        }
+    }
+    
+    void GenerateCornerJumpCoins(){
+        /************************Jump CoinGenerator*************************/
             float jumpDistance = LeftMostSwawnPoint.x - prevRightMostSpawnPoint.x;
             
             float runSpeed = settlementScript.player.GetComponent<PlayerMovement>().runSpeed;
@@ -46,14 +60,9 @@ public class CoinGenerator : MonoBehaviour
             
             Vector2 vec = prevRightMostSpawnPoint;
             
-            //Modify spawn point.
-            prevRightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
-            LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
-            RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
-            
             //Create new empty gameobject inside Building.
             GameObject CoinsOBJ = new GameObject();//Instantiate(, new Vector2(0, 0), Quaternion.identity);
-            CoinsOBJ.transform.parent = prevBuilding.transform;
+            CoinsOBJ.transform.parent = building.transform;
             CoinsOBJ.name = "All Coins";
             
             float x = 1;
@@ -73,17 +82,9 @@ public class CoinGenerator : MonoBehaviour
             }
             
             /***********************Line CoinGenerator************************/
-            
-            
-            
-//            float a = 48.02f;
-//            float b = -98f;
-//            float c = 46f;
-//            float e = -1f;
-//            PolynomialSolver.solve4(a, b, c, 0, e);
-        }
+    
     }
-
+    
     // Update is called once per frame
     void Update()
     {

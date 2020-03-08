@@ -43,6 +43,9 @@ public class Settlement : MonoBehaviour
     
     private CoinGenerator coinGenerator;
     
+    [HideInInspector]
+    public GameObject newBuilding;
+
 //    public bool spawnCoins = true;
 //    [ConditionalField("spawnCoins")]
 //    public int minCoinsSpawnCount = 0;
@@ -128,7 +131,7 @@ public class Settlement : MonoBehaviour
         
         ChooseNewBuilding();
         
-        GameObject newBuilding = GameObject.Instantiate(toCreateBuilding, gameObject.transform.position, Quaternion.identity);
+        newBuilding = GameObject.Instantiate(toCreateBuilding, gameObject.transform.position, Quaternion.identity);
         Building newBuildingScript = newBuilding.GetComponent<Building>();
         
         Vector2 position = newBuilding.transform.position;
@@ -151,11 +154,12 @@ public class Settlement : MonoBehaviour
         if(buildingCount >= buildingCountLimit)
             finishedLayingBuildings = true;
         
-        //CoinGenerator.GenerateCoins() requires this variable to be updated.
-        previousBuilding = newBuilding;
-        
         //Create all game props here.
+        gameObject.GetComponent<CoinGenerator>().building = newBuilding;
         gameObject.GetComponent<CoinGenerator>().buildingScript = newBuildingScript;
         gameObject.GetComponent<CoinGenerator>().GenerateCoins();
+        
+        //CoinGenerator.GenerateCoins() requires this variable to be updated.
+        previousBuilding = newBuilding;
     }
 }
