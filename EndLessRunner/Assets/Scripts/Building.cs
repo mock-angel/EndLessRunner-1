@@ -30,6 +30,9 @@ public class Building : MonoBehaviour
     
     public int ID = 0;
     
+    [HideInInspector]
+    public Vector2 tileSize;
+    
     //[HideInInspector]
     //public List<GameObject> AllTilesList;
     
@@ -46,15 +49,20 @@ public class Building : MonoBehaviour
     public void CreateContent(){
         
         leftMostPoint = new Vector2();
+        tileSize = new Vector2();
         
-        print("New building created");
+//        print("New building created");
+        
+        //Set tile sizes.
+        tileSize.x = roofMiddle.GetComponent<Renderer>().bounds.size.x;
+        tileSize.y = roofMiddle.GetComponent<Renderer>().bounds.size.y;
         
         Vector2 nextPosition = new Vector2();
         nextPosition.x = nextPosition.y = 0;// Make sure vector is set to 0;
         if (previousBuilding != null){
             Building bScript = previousBuilding.GetComponent<Building>();
             prevRightMostPoint = bScript.rightMostPoint;
-            nextPosition.x = bScript.rightMostPoint.x;
+            nextPosition = bScript.rightMostPoint;
             
             //Check jump stats.
             float jumpVelocity = Player.GetComponent<PlayerJump>().jumpVelocity;
@@ -64,14 +72,14 @@ public class Building : MonoBehaviour
             float t = -jumpVelocity/gScale; //v = 0
             float s = jumpVelocity * t + 0.5f * gScale * t*t;
             
-            float maxHeightOfPlatform = (s - roofMiddle.GetComponent<Renderer>().bounds.size.y/2f) * 0.8f;
+            float maxHeightOfPlatform = (s - tileSize.y/2f) * 0.8f;
             
             float minDepthOfPlatform = s * 1.5f;
             
             float y = Random.Range(-minDepthOfPlatform, maxHeightOfPlatform);
             
             //Set y height.
-            nextPosition.y = bScript.rightMostPoint.y;
+//            nextPosition.y = bScript.rightMostPoint.y;
             nextPosition.y += y;
             
             //Calculate t, then x distance here.
@@ -83,9 +91,10 @@ public class Building : MonoBehaviour
             float t_y = PolynomialSolver.solve2(a, b, c);
 //            s = ut+ 0.5 a t**2;
             float d_x = runSpeed * t_y;
-            nextPosition.x += d_x - roofMiddle.GetComponent<Renderer>().bounds.size.x;
+            nextPosition.x += d_x - tileSize.x;
             
-            
+            //
+            leftMostPoint = nextPosition;
             
             //Equations of motion.
             //s = -(jumpVelocity * jumpVelocity)/ (2f * gScale);
@@ -97,15 +106,14 @@ public class Building : MonoBehaviour
             
         }
         
-        //
-        leftMostPoint = nextPosition;
+        
         
         //Randomly decide tileCount.
         tileCount = Random.Range(minimumTilesCount, maximumTilesCount + 1);
         
         //Create tiles.
-        nextPosition.x += roofMiddle.GetComponent<Renderer>().bounds.size.x/2f;
-        nextPosition.y -= roofMiddle.GetComponent<Renderer>().bounds.size.y/2f;
+        nextPosition.x += tileSize.x/2f;//compatible even during start without previousBuilding.
+        nextPosition.y -= tileSize.y/2f;
         float gap = 0.0f;
         
         GameObject newTile;
@@ -126,7 +134,7 @@ public class Building : MonoBehaviour
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
             
             //Prepare next position.
-            nextPosition.x  += (roofMiddle.GetComponent<Renderer>().bounds.size.x + gap);
+            nextPosition.x  += (tileSize.x + gap);
             
             //Set parent to Generator.
             newTile.transform.parent = gameObject.transform;
@@ -149,8 +157,8 @@ public class Building : MonoBehaviour
             AllTiles.Add(newTile);
             
         }
-        rightMostPoint.x = newTile.GetComponent<Renderer>().bounds.size.x/2f + newTile.transform.position.x;
-        rightMostPoint.y = newTile.GetComponent<Renderer>().bounds.size.y/2f + newTile.transform.position.y;
+        rightMostPoint.x = tileSize.x/2f + newTile.transform.position.x;
+        rightMostPoint.y = tileSize.y/2f + newTile.transform.position.y;
         gameObject.transform.parent = Parent.transform;
 //        print(gameObject.GetComponent<Renderer>().bounds.size.x);
         
