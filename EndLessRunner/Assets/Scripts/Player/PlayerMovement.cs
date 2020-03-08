@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float runSpeed = 5f;
+    public bool stop = false;
     
     private Rigidbody2D rb;
     
@@ -22,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     {
         //Move to fixed update?
 //        rb.MovePosition(rb.position + movement * runSpeed * Time.deltaTime);
-        transform.position += movement * runSpeed * Time.deltaTime;
+        if(!stop) transform.position += movement * runSpeed * Time.deltaTime;
+        
     }
     
 //    void FixedUpdate()
