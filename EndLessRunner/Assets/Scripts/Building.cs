@@ -104,6 +104,7 @@ public class Building : MonoBehaviour
             nextPosition.x += d_x - tileSize.x;
             
             //
+            nextPosition.x -= tileSize.x; ////////////////////
             leftMostPoint = nextPosition;
             
             //Equations of motion.
@@ -122,6 +123,8 @@ public class Building : MonoBehaviour
         //Create tiles.
         nextPosition.x += tileSize.x/2f;//compatible even during start without previousBuilding.
         nextPosition.y -= tileSize.y/2f;
+        
+        
         float gap = 0.0f;
         
         GameObject newTile;
