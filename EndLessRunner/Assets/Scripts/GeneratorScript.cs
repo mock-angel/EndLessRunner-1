@@ -34,6 +34,11 @@ public class GeneratorScript : MonoBehaviour
     public GameObject signPrefab;
     private List<GameObject> signsList;
     
+    private float nextSpeedBuffAtDistance = 100f;
+    public float IncreaseDistance = 200f;
+    public float MaxSpeed = 20;
+    public float SpeedIncreasePer = 1f;
+    
     void Start(){
 //        AllSettlementsList = new List<GameObject>();
         signsList = new List<GameObject>();
@@ -65,6 +70,15 @@ public class GeneratorScript : MonoBehaviour
         //Create new settlements.
         if(previousSettlement.GetComponent<Settlement>().Finished())
             CreateNewSettlement();
+        
+        
+        //Check for speed buff.
+        if(distance >= nextSpeedBuffAtDistance){
+            player.GetComponent<PlayerMovement>().runSpeed += SpeedIncreasePer;
+            nextSpeedBuffAtDistance += IncreaseDistance;
+            if(MaxSpeed <= player.GetComponent<PlayerMovement>().runSpeed)
+                player.GetComponent<PlayerMovement>().runSpeed = MaxSpeed;
+        }
     }
     
     void ChooseNewSettlement(){
@@ -128,4 +142,6 @@ public class GeneratorScript : MonoBehaviour
         }
 //        prevDistanceProbed = vec.x;
     }
+    
+    
 }

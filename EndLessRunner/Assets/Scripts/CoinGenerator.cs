@@ -43,7 +43,11 @@ public class CoinGenerator : MonoBehaviour
             prevRightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
             LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
             RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
-            GenerateCornerJumpCoins(20);
+            
+            int createdCoins = 0;
+            
+            createdCoins += GenerateCornerJumpCoins(20);
+            createdCoins += GenerateLineJumpCoins(5);
         }
     }
     
@@ -85,6 +89,11 @@ public class CoinGenerator : MonoBehaviour
     }
     
     int GenerateLineJumpCoins(int numberOfCoins){
+        
+        return 0;
+    }
+    
+    int GenerateLineCoins(int numberOfCoins){
         
         return 0;
     }
