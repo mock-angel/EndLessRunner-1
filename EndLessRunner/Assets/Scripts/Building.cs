@@ -17,20 +17,38 @@ public class Building : MonoBehaviour
     
     public List<GameObject> windowPrefabs;
     
+    [HideInInspector]
     public GameObject Player;
+    [HideInInspector]
     public GameObject Parent;
-    
+    [HideInInspector]
     public GameObject previousBuilding;
     
+    [HideInInspector]
     public Vector2 rightMostPoint;
+    [HideInInspector]
+    public Vector2 leftMostPoint;
+    [HideInInspector]
+    public Vector2 prevRightMostPoint;
     
     public LayerMask groundLayer;
     
     public int ID = 0;
     
+    [HideInInspector]
+    public Vector2 tileSize;
+//    [HideInInspector]
+//    public int coinsToPlace = 0;
+//    [HideInInspector]
+//    public int coinsPlaced = 0;
+    
+    //[HideInInspector]
+    //public List<GameObject> AllTilesList;
+    
     //Private use.
-    int tileCount;
-    List<GameObject> AllTiles  = new List<GameObject>();
+    private int tileCount;
+    private List<GameObject> AllTiles  = new List<GameObject>();
+    private List<GameObject> RoofTiles  = new List<GameObject>();
     
 //    void Start(){
 //        AllTiles = new List<GameObject>();
@@ -40,13 +58,21 @@ public class Building : MonoBehaviour
     
     public void CreateContent(){
         
-        print("New building created");
+        leftMostPoint = new Vector2();
+        tileSize = new Vector2();
+        
+//        print("New building created");
+        
+        //Set tile sizes.
+        tileSize.x = roofMiddle.GetComponent<Renderer>().bounds.size.x;
+        tileSize.y = roofMiddle.GetComponent<Renderer>().bounds.size.y;
         
         Vector2 nextPosition = new Vector2();
         nextPosition.x = nextPosition.y = 0;// Make sure vector is set to 0;
         if (previousBuilding != null){
             Building bScript = previousBuilding.GetComponent<Building>();
-            nextPosition.x = bScript.rightMostPoint.x;
+            prevRightMostPoint = bScript.rightMostPoint;
+            nextPosition = bScript.rightMostPoint;
             
             //Check jump stats.
             float jumpVelocity = Player.GetComponent<PlayerJump>().jumpVelocity;
@@ -56,14 +82,14 @@ public class Building : MonoBehaviour
             float t = -jumpVelocity/gScale; //v = 0
             float s = jumpVelocity * t + 0.5f * gScale * t*t;
             
-            float maxHeightOfPlatform = (s - roofMiddle.GetComponent<Renderer>().bounds.size.y/2f) * 0.8f;
+            float maxHeightOfPlatform = (s - tileSize.y/2f) * 0.8f;
             
             float minDepthOfPlatform = s * 1.5f;
             
             float y = Random.Range(-minDepthOfPlatform, maxHeightOfPlatform);
             
             //Set y height.
-            nextPosition.y = bScript.rightMostPoint.y;
+//            nextPosition.y = bScript.rightMostPoint.y;
             nextPosition.y += y;
             
             //Calculate t, then x distance here.
@@ -72,38 +98,14 @@ public class Building : MonoBehaviour
             float b = jumpVelocity;
             float c = -y;
             
-            float t1 = (-b + Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
-            float t2 = (-b - Mathf.Sqrt((b*b) - (4f*a*c))) / (2f*a);
-            
-            float t_y = 0;
-            
-            if(t1 < 0 || t2 < 0){
-                //Calculate if either is negative.
-                if(t1< 0&& t2<0){
-                    print("Error");
-                    return;
-                }
-                if(t2 >= 0){
-                    t_y = t2;
-                }else 
-                    t_y = t1;
-            }
-            else{
-                if(t1>t2){
-                    t_y = t1;
-                }
-                else t_y = t2;
-            }
-//            else if(t1 <= 0 && t2 >= 0){
-//                t_y = t2
-//            }
-//            else if 
-            
+            float t_y = PolynomialSolver.solve2(a, b, c);
 //            s = ut+ 0.5 a t**2;
             float d_x = runSpeed * t_y;
-            nextPosition.x += d_x - roofMiddle.GetComponent<Renderer>().bounds.size.x;
+            nextPosition.x += d_x - tileSize.x;
             
-            
+            //
+            nextPosition.x -= tileSize.x; ////////////////////
+            leftMostPoint = nextPosition;
             
             //Equations of motion.
             //s = -(jumpVelocity * jumpVelocity)/ (2f * gScale);
@@ -119,7 +121,10 @@ public class Building : MonoBehaviour
         tileCount = Random.Range(minimumTilesCount, maximumTilesCount + 1);
         
         //Create tiles.
-        nextPosition.x += roofMiddle.GetComponent<Renderer>().bounds.size.x/2f;
+        nextPosition.x += tileSize.x/2f;//compatible even during start without previousBuilding.
+        nextPosition.y -= tileSize.y/2f;
+        
+        
         float gap = 0.0f;
         
         GameObject newTile;
@@ -132,6 +137,7 @@ public class Building : MonoBehaviour
             newTile.transform.parent = gameObject.transform;
             
             AllTiles.Add(newTile);
+            RoofTiles.Add(newTile);
         }
         
         //Create middle tiles.
@@ -140,13 +146,14 @@ public class Building : MonoBehaviour
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
             
             //Prepare next position.
-            nextPosition.x  += (roofMiddle.GetComponent<Renderer>().bounds.size.x + gap);
+            nextPosition.x  += (tileSize.x + gap);
             
             //Set parent to Generator.
             newTile.transform.parent = gameObject.transform;
             
             //Add to list.
             AllTiles.Add(newTile);
+            RoofTiles.Add(newTile);
         }
         
         //Create right tile.
@@ -161,14 +168,62 @@ public class Building : MonoBehaviour
             
             //Add to list.
             AllTiles.Add(newTile);
-            
+            RoofTiles.Add(newTile);
         }
-        rightMostPoint.x = newTile.GetComponent<Renderer>().bounds.size.x/2f + newTile.transform.position.x;
-        rightMostPoint.y = newTile.GetComponent<Renderer>().bounds.size.y/2f + newTile.transform.position.y;
+        rightMostPoint.x = tileSize.x/2f + newTile.transform.position.x;
+        rightMostPoint.y = tileSize.y/2f + newTile.transform.position.y;
         gameObject.transform.parent = Parent.transform;
 //        print(gameObject.GetComponent<Renderer>().bounds.size.x);
         
+        //Fill Tiles Below roof.
+        FillBelowTiles(20);
+        
         mainGenerator.probeReach(rightMostPoint);
+    }
+    
+    void FillBelowTiles(int stepsDeep){
+        Vector2 nextPosition = new Vector2();
+//        nextPosition.x = nextPosition.y = 0;
+        nextPosition = leftMostPoint;
+        nextPosition.x += tileSize.x/2f;
+        nextPosition.y -= tileSize.y*1.5f;
+        
+        float gap = 0.0f;
+        
+        int numberOfColumns = tileCount;
+        
+        GameObject newTile;
+        
+        for (int i = 0; i < stepsDeep; i++)
+        {
+            for (int j = 0; j < numberOfColumns; j++) {
+                newTile = Instantiate(roofMiddle, nextPosition, Quaternion.identity);
+                newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
+                //Prepare next position.
+                nextPosition.x  += (tileSize.x + gap);
+                
+                //Set parent to Generator.
+                newTile.transform.parent = gameObject.transform;
+                
+                //Add to list.
+                AllTiles.Add(newTile);
+            }
+            
+            nextPosition.x = leftMostPoint.x + tileSize.x/2f;
+            nextPosition.y -= tileSize.y;
+        }
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
