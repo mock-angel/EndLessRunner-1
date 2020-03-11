@@ -17,36 +17,84 @@ public class CoinGenerator : MonoBehaviour
     public int maxCoinsSpawnCount = 10; 
     
     public Settlement settlementScript;
-    
+    public GameObject building;
+    public Building buildingScript;
     public float distanceBetweenCoins = 1f;
     
+    //All of these are to be set from within GenerateCoins() method
+    private GameObject prevBuilding;
     
-    void Start(){
-        //settlementScript = gameObject.GetComponent<Settlement>();
-    }
+    private Vector2 prevRightMostSpawnPoint;
+    private Vector2 LeftMostSwawnPoint;
+    private Vector2 RightMostSpawnPoint;//prevBuilding.transform.position;
     
     public void GenerateCoins(){
         
-        GameObject prevBuilding = settlementScript.previousBuilding;
-        if(prevBuilding != null){
-            Vector2 vec = prevBuilding.GetComponent<Building>().rightMostPoint;//prevBuilding.transform.position;
-            vec.y += 1;
-            Instantiate(CoinsPrefab, vec, Quaternion.identity);
+//        prevBuilding = settlementScript.previousBuilding;
+        
+        if(buildingScript != null){
             
-            float a = 48.02f;
-            float b = 98f;
-            float c = 46f;
-            float d = -1f;
-            PolynomialSolver.solve4(a, b, c, d);
+            //Get all required variables from buildingScript.
+            prevRightMostSpawnPoint = buildingScript.prevRightMostPoint;
+            LeftMostSwawnPoint = buildingScript.leftMostPoint;
+            RightMostSpawnPoint = buildingScript.rightMostPoint;//prevBuilding.transform.position;
+            
+            //Modify spawn point.
+            prevRightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            LeftMostSwawnPoint.x -= buildingScript.tileSize.x/2f;
+            RightMostSpawnPoint.x -= buildingScript.tileSize.x/2f;
+            
+            int createdCoins = 0;
+            
+            createdCoins += GenerateCornerJumpCoins(20);
+            createdCoins += GenerateLineJumpCoins(5);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
+    
+    int GenerateCornerJumpCoins(int numberOfCoins){
+        /************************Jump CoinGenerator*************************/
+        float jumpDistance = LeftMostSwawnPoint.x - prevRightMostSpawnPoint.x;
         
+        float runSpeed = settlementScript.player.GetComponent<PlayerMovement>().runSpeed;
+        float jumpVelocity = settlementScript.player.GetComponent<PlayerJump>().jumpVelocity;
+        float gScale = (settlementScript.player.GetComponent<Rigidbody2D>().gravityScale)*(-9.81f);
+        
+        Vector2 vec = prevRightMostSpawnPoint;
+        
+        //Create new empty gameobject inside Building.
+        GameObject CoinsOBJ = new GameObject();//Instantiate(, new Vector2(0, 0), Quaternion.identity);
+        CoinsOBJ.transform.parent = building.transform;
+        CoinsOBJ.name = "All Coins";
+        
+        float x = 1;
+        float t = x/runSpeed;
+        float y = 0;
+        int i = 0;
+        for(; i < numberOfCoins; i++){
+            y = jumpVelocity*t + 0.5f*gScale*t*t;
+            vec.x = prevRightMostSpawnPoint.x + x;
+            vec.y = prevRightMostSpawnPoint.y + y;
+            
+            Instantiate(CoinsPrefab, vec, Quaternion.identity).transform.parent = CoinsOBJ.transform;
+            
+            //Update next x component.
+            x += 1f;
+            t = x/runSpeed;
+            
+            //Validation.
+            if(x >= jumpDistance) break;
+        }
+        return i;
+        /***********************Line CoinGenerator************************/
+    }
+    
+    int GenerateLineJumpCoins(int numberOfCoins){
+        
+        return 0;
+    }
+    
+    int GenerateLineCoins(int numberOfCoins){
+        
+        return 0;
     }
 }
-//int P = 8ac - 3b*b
-//int R = b*b*b - 4*a*b*c
-//
