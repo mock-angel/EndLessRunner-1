@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumTilesCount: 18
   maximumTilesCount: 23
-  roofCornerLeft: {fileID: 5138133244935686262, guid: fa2730750525f5ab1ba73e3c5faa02b3,
+  roofCornerLeft: {fileID: 4894507909647995304, guid: f4b945be81434d1a29d1937c73acc389,
     type: 3}
   roofMiddle: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
     type: 3}
@@ -55,8 +55,11 @@ MonoBehaviour:
   Parent: {fileID: 0}
   previousBuilding: {fileID: 0}
   rightMostPoint: {x: 0, y: 0}
+  leftMostPoint: {x: 0, y: 0}
+  prevRightMostPoint: {x: 0, y: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   ID: 1
+  tileSize: {x: 0, y: 0}
   mainGenerator: {fileID: 0}
