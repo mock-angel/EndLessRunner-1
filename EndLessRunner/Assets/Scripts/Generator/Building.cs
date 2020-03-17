@@ -11,6 +11,8 @@ public class Building : MonoBehaviour
     
     public GameObject roofCornerLeft;
     public GameObject roofMiddle;
+    public GameObject leftWall;
+    public GameObject fullWall;
     
     [Range(0, 50)]
     public int frequencyWeight = 5;
@@ -163,7 +165,7 @@ public class Building : MonoBehaviour
             newTile.transform.parent = gameObject.transform;
             nextPosition.x  += (roofCornerLeft.GetComponent<Renderer>().bounds.size.x + gap);
             
-            //Flip tile here.
+            //Flip tile now.
             newTile.GetComponent<SpriteRenderer>().flipX = true;
             
             //Add to list.
@@ -196,14 +198,44 @@ public class Building : MonoBehaviour
         
         for (int i = 0; i < stepsDeep; i++)
         {
-            for (int j = 0; j < numberOfColumns; j++) {
-                newTile = Instantiate(roofMiddle, nextPosition, Quaternion.identity);
+            //Create Left Wall Tile.
+            {
+                newTile = Instantiate(leftWall, nextPosition, Quaternion.identity);
                 newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
                 //Prepare next position.
                 nextPosition.x  += (tileSize.x + gap);
                 
                 //Set parent to Generator.
                 newTile.transform.parent = gameObject.transform;
+                
+                //Add to list.
+                AllTiles.Add(newTile);
+            }
+            
+            for (int j = 0; j < (numberOfColumns - 2); j++) {
+                newTile = Instantiate(fullWall, nextPosition, Quaternion.identity);
+                newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
+                //Prepare next position.
+                nextPosition.x  += (tileSize.x + gap);
+                
+                //Set parent to Generator.
+                newTile.transform.parent = gameObject.transform;
+                
+                //Add to list.
+                AllTiles.Add(newTile);
+            }
+            
+            {
+                newTile = Instantiate(leftWall, nextPosition, Quaternion.identity);
+                newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
+                //Prepare next position.
+                nextPosition.x  += (tileSize.x + gap);
+                
+                //Set parent to Generator.
+                newTile.transform.parent = gameObject.transform;
+                
+                //Flip tile now.
+                newTile.GetComponent<SpriteRenderer>().flipX = true;
                 
                 //Add to list.
                 AllTiles.Add(newTile);

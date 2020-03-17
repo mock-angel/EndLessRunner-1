@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1086788082497338363}
   - component: {fileID: 1086788082497338360}
   m_Layer: 10
-  m_Name: Building1
+  m_Name: DarkCityBuilding1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,11 @@ MonoBehaviour:
   maximumTilesCount: 23
   roofCornerLeft: {fileID: 4894507909647995304, guid: f4b945be81434d1a29d1937c73acc389,
     type: 3}
-  roofMiddle: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
+  roofMiddle: {fileID: 2189876712394105054, guid: eb9464ffe451e515fb216a71e9d41803,
+    type: 3}
+  leftWall: {fileID: 5981879386312455610, guid: ce0c11bedd88bae548b0414d778d3921,
+    type: 3}
+  fullWall: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
     type: 3}
   frequencyWeight: 5
   windowPrefabs: []
