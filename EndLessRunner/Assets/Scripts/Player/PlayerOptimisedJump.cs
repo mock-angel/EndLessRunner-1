@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerOptimisedJump : MonoBehaviour
 {
-    [Range(1, 10)]
+    [Range(0, 10)]
     public float fallMultiplier = 3f;
     public float lowJumpMultiplier = 2f;
     
