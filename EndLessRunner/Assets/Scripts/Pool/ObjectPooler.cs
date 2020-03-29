@@ -17,15 +17,12 @@ public class PoolQueue<T> : Queue
 
 public class ObjectPooler : MonoBehaviour
 {
-    
-    
-//    public ObjectPooler Instance;
-    
     public List<Pool> pools;
     public Dictionary<string, PoolQueue<GameObject>> poolDictionary;
     
     void Awake(){
-        poolDictionary = new Dictionary<string, PoolQueue<GameObject>>();
+        if(poolDictionary == null) poolDictionary = new Dictionary<string, PoolQueue<GameObject>>();
+        else return;
         
         for(int i = 0; i < pools.Count; i++)
         {
@@ -37,13 +34,12 @@ public class ObjectPooler : MonoBehaviour
                 GameObject obj = Instantiate(pool.prefab, gameObject.transform);
                 obj.SetActive(false);
                 
-                MonoBehaviourPooledObject PooledObjectScript = obj.GetComponent<MonoBehaviourPooledObject>(); 
-                if(objectPool == null) print("Start WEnt wrong");
+                MonoBehaviourPooledObject PooledObjectScript = obj.GetComponent<MonoBehaviourPooledObject>();
+                
                 if(PooledObjectScript != null) {
                     PooledObjectScript.SetQueue(objectPool);
-                    if(PooledObjectScript.queueBelongsTo == null ) print("inside if and it went wrong");
                 }
-                else print("This particular didnt derive from Pooled Object");
+                
                 objectPool.Enqueue(obj);
             }
             
@@ -54,7 +50,6 @@ public class ObjectPooler : MonoBehaviour
     }
     
     GameObject CreateObject(Pool pool){
-//        if(pool == null) print("It was null"); 
         GameObject obj = Instantiate(pool.prefab, gameObject.transform);
         obj.SetActive(false);
         
@@ -63,7 +58,6 @@ public class ObjectPooler : MonoBehaviour
         if(PooledObjectScript != null) PooledObjectScript.SetQueue(poolDictionary[pool.tag]);
         else {
             Destroy(obj);
-//            Debug.LogWarning("Pooled Objects must contain or derive from MonoBehaviourPooledObject");
             return null;
         }
         PooledObjectScript.WithdrawToPool();
@@ -78,8 +72,6 @@ public class ObjectPooler : MonoBehaviour
         
         if(PooledObjectScript != null) PooledObjectScript.SetQueue(poolDictionary[pool.tag]);
         else {
-//            Destroy(obj);
-//            Debug.LogWarning("Pooled Objects must contain or derive from MonoBehaviourPooledObject");
             return null;
         }
         return obj;
