@@ -8,9 +8,19 @@ public class GeneratorScript : MonoBehaviour
     public GameObject player;
     public ThisGameData thisGameData;
     
+    [System.Serializable]
+    public class SettlementsMeta
+    {
+        public string name;
+        public GameObject prefab;
+        public ObjectPooler objectPooler;
+    }
     
     //Settlement assets.
     public List<GameObject> settlements;
+    
+     //Settlement assets.
+    public List<SettlementsMeta> settlementsMeta;
     
     //Private assets.
 //    [SerializeField]
@@ -21,9 +31,9 @@ public class GeneratorScript : MonoBehaviour
     
     //Used while choosing new settlement.
     private Weight settlementWeightCalculator;
-    private GameObject chosenSettlement;
+    private SettlementsMeta chosenSettlementMeta;
     
-    private List<GameObject> CapableSettlementsList;
+    private List<SettlementsMeta> CapableSettlementsMetaList;
     private List<GameObject> AllStartedSettlementList;
 //    List<GameObject> AllSettlementsList;
     
@@ -44,7 +54,7 @@ public class GeneratorScript : MonoBehaviour
         signsList = new List<GameObject>();
         
         settlementWeightCalculator = new Weight();
-        CapableSettlementsList = new List<GameObject>();
+        CapableSettlementsMetaList = new List<SettlementsMeta>();
         AllStartedSettlementList = new List<GameObject>();
         CreateNewSettlement();
         
@@ -82,18 +92,18 @@ public class GeneratorScript : MonoBehaviour
     }
     
     void ChooseNewSettlement(){
-        int count = settlements.Count;
+        int count = settlementsMeta.Count;
         
         //Clear Before start.
-        CapableSettlementsList.Clear();
+        CapableSettlementsMetaList.Clear();
         settlementWeightCalculator.Clear();
         
         //Choose settlement code.
         for (int i = 0; i < count; i++){
             //Check if distance condition for settlement is met. 
-            if ( settlements[i].GetComponent<Settlement>().checkAvailability(this) ){
-                settlementWeightCalculator.Add(settlements[i].GetComponent<Settlement>().frequencyWeight);
-                CapableSettlementsList.Add(settlements[i]);
+            if ( settlementsMeta[i].prefab.GetComponent<Settlement>().checkAvailability(this) ){
+                settlementWeightCalculator.Add(settlementsMeta[i].prefab.GetComponent<Settlement>().frequencyWeight);
+                CapableSettlementsMetaList.Add(settlementsMeta[i]);
             }
         }
         
@@ -104,13 +114,13 @@ public class GeneratorScript : MonoBehaviour
 //        CapableSettlementsList.Clear();
 //        settlementWeightCalculator.Clear();
         
-        chosenSettlement = CapableSettlementsList[index];
+        chosenSettlementMeta = CapableSettlementsMetaList[index];
     }
 
     void CreateNewSettlement(){
         ChooseNewSettlement();
         
-        GameObject newSettlement = Instantiate(chosenSettlement, gameObject.transform.position, Quaternion.identity);
+        GameObject newSettlement = Instantiate(chosenSettlementMeta.prefab, gameObject.transform.position, Quaternion.identity);
         Settlement newSettlementScript = newSettlement.GetComponent<Settlement>();
         
         //Set Settlement Transform.
@@ -120,6 +130,7 @@ public class GeneratorScript : MonoBehaviour
         newSettlementScript.parent = this;
         newSettlementScript.previousSettlement = previousSettlement;
         newSettlementScript.player = player;
+        newSettlementScript.objectPooler = chosenSettlementMeta.objectPooler;
         newSettlementScript.StartSettlement();
         
         previousSettlement = newSettlement;

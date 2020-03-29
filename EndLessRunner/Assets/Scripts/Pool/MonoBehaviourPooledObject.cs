@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class MonoBehaviourPooledObject: MonoBehaviour, IPooledObject
 {
-    Queue<GameObject> queueBelongsTo;
+    public PoolQueue<GameObject> queueBelongsTo;
     
-    public void SetQueue(Queue<GameObject> queue){
+    [HideInInspector]
+    public SpriteRenderer cachedSpriteRenderer;
+    
+    public void SetQueue(PoolQueue<GameObject> queue){
         queueBelongsTo = queue;
+    }
+    
+    public void OnFirstCreated(){
+        cachedSpriteRenderer = GetComponent<SpriteRenderer>();
     }
     
     public void WithdrawToPool(){
         gameObject.SetActive(false);
-        queueBelongsTo.Enqueue(gameObject);
+        
+        if(queueBelongsTo != null) queueBelongsTo.Enqueue(gameObject);
+        else {
+            Debug.LogWarning("WithdrawToPool unsuccessful: queueBelongsTo is null");
+            return;
+        }
+        
+        if(cachedSpriteRenderer != null){
+            cachedSpriteRenderer.flipX = false;
+            cachedSpriteRenderer.flipY = false;
+        }
     }
     
     public void OnObjectSpawn(){

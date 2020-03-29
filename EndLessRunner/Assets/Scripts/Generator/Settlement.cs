@@ -46,6 +46,9 @@ public class Settlement : MonoBehaviour
     [HideInInspector]
     public GameObject newBuilding;
 
+    [HideInInspector]
+    public ObjectPooler objectPooler;
+
 //    public bool spawnCoins = true;
 //    [ConditionalField("spawnCoins")]
 //    public int minCoinsSpawnCount = 0;
@@ -81,6 +84,7 @@ public class Settlement : MonoBehaviour
         if(AllCreatedBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
             GameObject firstBuilding = AllCreatedBuildingsList[0];
             AllCreatedBuildingsList.RemoveAt(0);
+            firstBuilding.GetComponent<Building>().ClearAll();
             Destroy(firstBuilding);
             if(AllCreatedBuildingsList.Count == 0) allBuildingsDeleted = true;
         }
@@ -144,6 +148,7 @@ public class Settlement : MonoBehaviour
         newBuildingScript.previousBuilding = previousBuilding;
         newBuildingScript.Player = player; //TODO: Change from Player to player.
         newBuildingScript.mainGenerator = parent;
+        newBuildingScript.objectPooler = objectPooler;
         newBuildingScript.CreateContent();
         
         //Finally add it to building list, to handle deletion.
