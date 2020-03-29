@@ -52,7 +52,7 @@ MonoBehaviour:
     type: 3}
   leftWall: {fileID: 9164190885382925683, guid: 651403acb92818916a03c7b161056031,
     type: 3}
-  fullWall: {fileID: 9164190885382925683, guid: 651403acb92818916a03c7b161056031,
+  fullWall: {fileID: 9084911024154008428, guid: 8a4cb6a7ecfe89ce1bd62834c9206e18,
     type: 3}
   frequencyWeight: 5
   windowPrefabs: []
