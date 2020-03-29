@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PolynomialSolver : MonoBehaviour
+public static class PolynomialSolver
 {
     static public float solve4(float a, float b, float c, float d, float e){
             //
@@ -11,7 +11,7 @@ public class PolynomialSolver : MonoBehaviour
         float del0 = c*c - 3f*b*d + 12f*a*e;// 
         float del1 = 2f*c*c*c - 9f*b*c*d + 27f*b*b*e + 27f*a*d*d - 72f*a*c*e;// ;
         
-        print("P = "+P+", R= "+R+", del0= "+del0+", del1= "+del1);
+        Debug.LogWarning("P = "+P+", R= "+R+", del0= "+del0+", del1= "+del1);
         
         float p = (8f*a*c - 3f*b*b)/(8f*a*a);
         float q = (b*b*b-4f*a*b*c + 8f*a*a*d)/(8f*a*a*a);// in numerator;
@@ -25,7 +25,7 @@ public class PolynomialSolver : MonoBehaviour
         
         float firstTerm = -b/(4*a);
         
-        print("p = "+p+", q= "+q+", phi= "+phi+", S= "+S);
+        Debug.LogWarning("p = "+p+", q= "+q+", phi= "+phi+", S= "+S);
         
         float secondTerm = 0.5f*Mathf.Sqrt(-4f*S*S - 2f*p + q/S);
         float x1 = firstTerm - S + secondTerm;
@@ -35,7 +35,7 @@ public class PolynomialSolver : MonoBehaviour
         float x3 = firstTerm + S + secondTerm;
         float x4 = firstTerm + S - secondTerm;
         
-        print("x1 = "+x1+", x2= "+x2+", x3= "+x3+", x4= "+x4);
+        Debug.LogWarning("x1 = "+x1+", x2= "+x2+", x3= "+x3+", x4= "+x4);
         
         if(x1>0) return x1;
         if(x2>0) return x2;
@@ -54,7 +54,7 @@ public class PolynomialSolver : MonoBehaviour
         if(x1 < 0 || x2 < 0){
             //Calculate if either is negative.
             if(x1< 0&& x2<0){
-                print("Error");
+                Debug.LogError("Error: solve2(a, b, c) -> ("+ a + ", " + b + ", " + c + ") : result is both negative. Returning 0");
                 return 0;
             }
             if(x2 >= 0){
