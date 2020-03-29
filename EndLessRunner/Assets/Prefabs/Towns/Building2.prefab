@@ -50,16 +50,23 @@ MonoBehaviour:
     type: 3}
   roofMiddle: {fileID: 9164190885382925683, guid: 651403acb92818916a03c7b161056031,
     type: 3}
+  leftWall: {fileID: 9164190885382925683, guid: 651403acb92818916a03c7b161056031,
+    type: 3}
+  fullWall: {fileID: 9084911024154008428, guid: 8a4cb6a7ecfe89ce1bd62834c9206e18,
+    type: 3}
   frequencyWeight: 5
   windowPrefabs: []
   Player: {fileID: 0}
   Parent: {fileID: 0}
   previousBuilding: {fileID: 0}
   rightMostPoint: {x: 0, y: 0}
+  leftMostPoint: {x: 0, y: 0}
+  prevRightMostPoint: {x: 0, y: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   ID: 2
+  tileSize: {x: 0, y: 0}
   mainGenerator: {fileID: 0}
 --- !u!114 &6158894295451099630
 MonoBehaviour:
@@ -79,4 +86,6 @@ MonoBehaviour:
   minCoinsSpawnCount: 0
   maxCoinsSpawnCount: 10
   settlementScript: {fileID: 0}
+  building: {fileID: 0}
+  buildingScript: {fileID: 0}
   distanceBetweenCoins: 1
