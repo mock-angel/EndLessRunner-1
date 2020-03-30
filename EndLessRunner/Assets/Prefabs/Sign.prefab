@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 7351866158523543280}
   - component: {fileID: 7351866158523543283}
   - component: {fileID: 7351866158523543281}
+  - component: {fileID: -580699117872350707}
   m_Layer: 0
   m_Name: Sign
   m_TagString: Untagged
@@ -273,3 +274,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 7351866158376703382}
   rect: {fileID: 7351866158376703380}
+--- !u!114 &-580699117872350707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7351866158523543282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b0540270fa7b24cab41d1522e107770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cachedSpriteRenderer: {fileID: 0}

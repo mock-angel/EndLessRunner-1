@@ -13,22 +13,20 @@ public class GeneratorScript : MonoBehaviour
     {
         public string name;
         public GameObject prefab;
+        public int frequencyWeight;
         public ObjectPooler objectPooler;
     }
-    
-    //Settlement assets.
-    public List<GameObject> settlements;
     
      //Settlement assets.
     public List<SettlementsMeta> settlementsMeta;
     
-    //Private assets.
-//    [SerializeField]
+    
     public int distance = 0;
     
     [HideInInspector]
     public GameObject previousSettlement;
     
+     //Private assets.
     //Used while choosing new settlement.
     private Weight settlementWeightCalculator;
     private SettlementsMeta chosenSettlementMeta;
@@ -42,6 +40,7 @@ public class GeneratorScript : MonoBehaviour
     private float prevDistanceProbed = 0;
     
     public GameObject signPrefab;
+    public SingleObjectPooler distanceSignPooler;
     private List<GameObject> signsList;
     
     private float nextSpeedBuffAtDistance = 100f;
@@ -102,7 +101,7 @@ public class GeneratorScript : MonoBehaviour
         for (int i = 0; i < count; i++){
             //Check if distance condition for settlement is met. 
             if ( settlementsMeta[i].prefab.GetComponent<Settlement>().checkAvailability(this) ){
-                settlementWeightCalculator.Add(settlementsMeta[i].prefab.GetComponent<Settlement>().frequencyWeight);
+                settlementWeightCalculator.Add(settlementsMeta[i].frequencyWeight);
                 CapableSettlementsMetaList.Add(settlementsMeta[i]);
             }
         }
@@ -145,7 +144,8 @@ public class GeneratorScript : MonoBehaviour
             vec.x = nextSignAtDistance;
             vec.y += 1;
             
-            GameObject newSign = Instantiate(signPrefab, vec, Quaternion.identity);
+//            GameObject newSign = Instantiate(signPrefab, vec, Quaternion.identity);
+            GameObject newSign = distanceSignPooler.SpawnFromPoolSingle(vec, Quaternion.identity);
             signsList.Add(newSign);
             newSign.GetComponent<SignScript>().SetMeters((int)vec.x);
             

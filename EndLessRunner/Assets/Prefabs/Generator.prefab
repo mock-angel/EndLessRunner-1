@@ -45,11 +45,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   thisGameData: {fileID: 0}
-  settlements:
-  - {fileID: 4495567185309852146, guid: 2814a161b19330b28a0c65aa4945a029, type: 3}
-  - {fileID: 4130460945985193496, guid: 45778edd6494b91e8b9a919c15f7127a, type: 3}
+  settlementsMeta:
+  - name: City
+    prefab: {fileID: 4495567185309852146, guid: 2814a161b19330b28a0c65aa4945a029,
+      type: 3}
+    frequencyWeight: 1
+    objectPooler: {fileID: 0}
+  - name: Town
+    prefab: {fileID: 4130460945985193496, guid: 45778edd6494b91e8b9a919c15f7127a,
+      type: 3}
+    frequencyWeight: 1
+    objectPooler: {fileID: 0}
   distance: 0
   previousSettlement: {fileID: 0}
   distancePerSign: 100
   signPrefab: {fileID: 7351866158523543282, guid: aefa99fec3933f8b89cbd6db73db7c25,
     type: 3}
+  IncreaseDistance: 100
+  MaxSpeed: 20
+  SpeedIncreasePer: 1

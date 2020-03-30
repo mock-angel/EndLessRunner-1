@@ -364,7 +364,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.745773, y: 1, z: -10}
+  m_LocalPosition: {x: 18.728054, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -622,11 +622,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
         type: 3}
-      propertyPath: settlementsMeta.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 295253731}
@@ -637,46 +632,19 @@ PrefabInstance:
       objectReference: {fileID: 295253739}
     - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
         type: 3}
-      propertyPath: MaxSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
-      propertyPath: IncreaseDistance
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
-      propertyPath: settlementsMeta.Array.data[0].name
-      value: City
-      objectReference: {fileID: 0}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
-      propertyPath: settlementsMeta.Array.data[0].prefab
-      value: 
-      objectReference: {fileID: 4495567185309852146, guid: 2814a161b19330b28a0c65aa4945a029,
-        type: 3}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
       propertyPath: settlementsMeta.Array.data[0].objectPooler
       value: 
       objectReference: {fileID: 1246771401}
     - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
         type: 3}
-      propertyPath: settlementsMeta.Array.data[1].name
-      value: Town
-      objectReference: {fileID: 0}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
-      propertyPath: settlementsMeta.Array.data[1].prefab
-      value: 
-      objectReference: {fileID: 4130460945985193496, guid: 45778edd6494b91e8b9a919c15f7127a,
-        type: 3}
-    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
-        type: 3}
       propertyPath: settlementsMeta.Array.data[1].objectPooler
       value: 
       objectReference: {fileID: 843051545}
+    - target: {fileID: 7576448685747704706, guid: 777ff301071441a97adbd3d8aa3c5bc0,
+        type: 3}
+      propertyPath: distanceSignPooler
+      value: 
+      objectReference: {fileID: 1284128762}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 777ff301071441a97adbd3d8aa3c5bc0, type: 3}
 --- !u!1 &1002479911
@@ -945,6 +913,54 @@ MonoBehaviour:
     prefab: {fileID: 5981879386312455610, guid: ce0c11bedd88bae548b0414d778d3921,
       type: 3}
     size: 100
+--- !u!1 &1284128760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1284128761}
+  - component: {fileID: 1284128762}
+  m_Layer: 0
+  m_Name: Sign
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1284128761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284128760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1548928795}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1284128762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284128760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23379a84acffaa3a1b7a18dc9a146740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pool:
+    tag: DistanceSign
+    prefab: {fileID: 7351866158523543282, guid: aefa99fec3933f8b89cbd6db73db7c25,
+      type: 3}
+    size: 0
 --- !u!1 &1548928793
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,6 +1004,7 @@ Transform:
   m_Children:
   - {fileID: 1246771400}
   - {fileID: 843051544}
+  - {fileID: 1284128761}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1070,7 +1087,7 @@ PrefabInstance:
     - target: {fileID: 1281398895316977378, guid: 9708c44fcc156ca88b4a34acd70ef19f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.745773
+      value: 18.728054
       objectReference: {fileID: 0}
     - target: {fileID: 1281398895316977378, guid: 9708c44fcc156ca88b4a34acd70ef19f,
         type: 3}
