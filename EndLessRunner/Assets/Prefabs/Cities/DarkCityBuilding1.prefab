@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minimumTilesCount: 18
   maximumTilesCount: 23
+  objectPooler: {fileID: 0}
   roofCornerLeft: {fileID: 4894507909647995304, guid: f4b945be81434d1a29d1937c73acc389,
     type: 3}
   roofMiddle: {fileID: 2189876712394105054, guid: eb9464ffe451e515fb216a71e9d41803,
@@ -53,6 +54,10 @@ MonoBehaviour:
     type: 3}
   fullWall: {fileID: 9164190885382925683, guid: cf0a0f69ab30ae57481b44cb28cc77a3,
     type: 3}
+  roofCornerLeftStr: B1RoofLeft
+  roofMiddleStr: B1RoofMiddle
+  leftWallStr: B1LeftWall
+  fullWallStr: B1FullWall
   frequencyWeight: 5
   windowPrefabs: []
   Player: {fileID: 0}

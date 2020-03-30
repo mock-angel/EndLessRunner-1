@@ -4,26 +4,33 @@ using UnityEngine;
 
 public class GeneratorScript : MonoBehaviour
 {
-    
     public GameObject player;
-    public ThisGameData thisGameData;
+    private ThisGameData thisGameData;
+    
+    [System.Serializable]
+    public class SettlementsMeta
+    {
+        public string name;
+        public GameObject prefab;
+        public int frequencyWeight;
+        public ObjectPooler objectPooler;
+    }
+    
+     //Settlement assets.
+    public List<SettlementsMeta> settlementsMeta;
     
     
-    //Settlement assets.
-    public List<GameObject> settlements;
-    
-    //Private assets.
-//    [SerializeField]
     public int distance = 0;
     
     [HideInInspector]
     public GameObject previousSettlement;
     
+     //Private assets.
     //Used while choosing new settlement.
     private Weight settlementWeightCalculator;
-    private GameObject chosenSettlement;
+    private SettlementsMeta chosenSettlementMeta;
     
-    private List<GameObject> CapableSettlementsList;
+    private List<SettlementsMeta> CapableSettlementsMetaList;
     private List<GameObject> AllStartedSettlementList;
 //    List<GameObject> AllSettlementsList;
     
@@ -32,6 +39,7 @@ public class GeneratorScript : MonoBehaviour
     private float prevDistanceProbed = 0;
     
     public GameObject signPrefab;
+    public SingleObjectPooler distanceSignPooler;
     private List<GameObject> signsList;
     
     private float nextSpeedBuffAtDistance = 100f;
@@ -44,8 +52,12 @@ public class GeneratorScript : MonoBehaviour
         signsList = new List<GameObject>();
         
         settlementWeightCalculator = new Weight();
-        CapableSettlementsList = new List<GameObject>();
+        CapableSettlementsMetaList = new List<SettlementsMeta>();
         AllStartedSettlementList = new List<GameObject>();
+        
+//        player = Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
+        thisGameData = player.GetComponent<ThisGameData>();
+        
         CreateNewSettlement();
         
         nextSignAtDistance = distancePerSign;
@@ -82,18 +94,18 @@ public class GeneratorScript : MonoBehaviour
     }
     
     void ChooseNewSettlement(){
-        int count = settlements.Count;
+        int count = settlementsMeta.Count;
         
         //Clear Before start.
-        CapableSettlementsList.Clear();
+        CapableSettlementsMetaList.Clear();
         settlementWeightCalculator.Clear();
         
         //Choose settlement code.
         for (int i = 0; i < count; i++){
             //Check if distance condition for settlement is met. 
-            if ( settlements[i].GetComponent<Settlement>().checkAvailability(this) ){
-                settlementWeightCalculator.Add(settlements[i].GetComponent<Settlement>().frequencyWeight);
-                CapableSettlementsList.Add(settlements[i]);
+            if ( settlementsMeta[i].prefab.GetComponent<Settlement>().checkAvailability(this) ){
+                settlementWeightCalculator.Add(settlementsMeta[i].frequencyWeight);
+                CapableSettlementsMetaList.Add(settlementsMeta[i]);
             }
         }
         
@@ -104,13 +116,13 @@ public class GeneratorScript : MonoBehaviour
 //        CapableSettlementsList.Clear();
 //        settlementWeightCalculator.Clear();
         
-        chosenSettlement = CapableSettlementsList[index];
+        chosenSettlementMeta = CapableSettlementsMetaList[index];
     }
 
     void CreateNewSettlement(){
         ChooseNewSettlement();
         
-        GameObject newSettlement = Instantiate(chosenSettlement, gameObject.transform.position, Quaternion.identity);
+        GameObject newSettlement = Instantiate(chosenSettlementMeta.prefab, gameObject.transform.position, Quaternion.identity);
         Settlement newSettlementScript = newSettlement.GetComponent<Settlement>();
         
         //Set Settlement Transform.
@@ -120,6 +132,7 @@ public class GeneratorScript : MonoBehaviour
         newSettlementScript.parent = this;
         newSettlementScript.previousSettlement = previousSettlement;
         newSettlementScript.player = player;
+        newSettlementScript.objectPooler = chosenSettlementMeta.objectPooler;
         newSettlementScript.StartSettlement();
         
         previousSettlement = newSettlement;
@@ -134,7 +147,8 @@ public class GeneratorScript : MonoBehaviour
             vec.x = nextSignAtDistance;
             vec.y += 1;
             
-            GameObject newSign = Instantiate(signPrefab, vec, Quaternion.identity);
+//            GameObject newSign = Instantiate(signPrefab, vec, Quaternion.identity);
+            GameObject newSign = distanceSignPooler.SpawnFromPoolSingle(vec, Quaternion.identity);
             signsList.Add(newSign);
             newSign.GetComponent<SignScript>().SetMeters((int)vec.x);
             

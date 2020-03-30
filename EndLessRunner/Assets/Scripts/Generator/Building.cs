@@ -9,10 +9,17 @@ public class Building : MonoBehaviour
     [Range(1, 50)]
     public int maximumTilesCount = 8;
     
+    public ObjectPooler objectPooler;
+    
     public GameObject roofCornerLeft;
     public GameObject roofMiddle;
     public GameObject leftWall;
     public GameObject fullWall;
+    
+    public string roofCornerLeftStr;
+    public string roofMiddleStr;
+    public string leftWallStr;
+    public string fullWallStr;
     
     [Range(0, 50)]
     public int frequencyWeight = 5;
@@ -133,10 +140,10 @@ public class Building : MonoBehaviour
         
         //Create left tile.
         {
-            newTile = Instantiate(roofCornerLeft, nextPosition, Quaternion.identity);
+            newTile = objectPooler.SpawnFromPool(roofCornerLeftStr, nextPosition, Quaternion.identity);
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
             nextPosition.x  += (roofCornerLeft.GetComponent<Renderer>().bounds.size.x + gap);
-            newTile.transform.parent = gameObject.transform;
+//            newTile.transform.parent = gameObject.transform;
             
             AllTiles.Add(newTile);
             RoofTiles.Add(newTile);
@@ -144,14 +151,14 @@ public class Building : MonoBehaviour
         
         //Create middle tiles.
         for (int i = 0; i < tileCount - 2; i++) {
-            newTile = Instantiate(roofMiddle, nextPosition, Quaternion.identity);
+            newTile = objectPooler.SpawnFromPool(roofMiddleStr, nextPosition, Quaternion.identity);
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
             
             //Prepare next position.
             nextPosition.x  += (tileSize.x + gap);
             
             //Set parent to Generator.
-            newTile.transform.parent = gameObject.transform;
+//            newTile.transform.parent = gameObject.transform;
             
             //Add to list.
             AllTiles.Add(newTile);
@@ -160,9 +167,9 @@ public class Building : MonoBehaviour
         
         //Create right tile.
         {
-            newTile = Instantiate(roofCornerLeft, nextPosition, Quaternion.identity);
+            newTile = objectPooler.SpawnFromPool(roofCornerLeftStr, nextPosition, Quaternion.identity);
             newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
-            newTile.transform.parent = gameObject.transform;
+//            newTile.transform.parent = gameObject.transform;
             nextPosition.x  += (roofCornerLeft.GetComponent<Renderer>().bounds.size.x + gap);
             
             //Flip tile now.
@@ -174,7 +181,7 @@ public class Building : MonoBehaviour
         }
         rightMostPoint.x = tileSize.x/2f + newTile.transform.position.x;
         rightMostPoint.y = tileSize.y/2f + newTile.transform.position.y;
-        gameObject.transform.parent = Parent.transform;
+//        gameObject.transform.parent = Parent.transform;
 //        print(gameObject.GetComponent<Renderer>().bounds.size.x);
         
         //Fill Tiles Below roof.
@@ -200,39 +207,39 @@ public class Building : MonoBehaviour
         {
             //Create Left Wall Tile.
             {
-                newTile = Instantiate(leftWall, nextPosition, Quaternion.identity);
+                newTile = objectPooler.SpawnFromPool(leftWallStr, nextPosition, Quaternion.identity);
                 newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
                 //Prepare next position.
                 nextPosition.x  += (tileSize.x + gap);
                 
                 //Set parent to Generator.
-                newTile.transform.parent = gameObject.transform;
+//                newTile.transform.parent = gameObject.transform;
                 
                 //Add to list.
                 AllTiles.Add(newTile);
             }
             
             for (int j = 0; j < (numberOfColumns - 2); j++) {
-                newTile = Instantiate(fullWall, nextPosition, Quaternion.identity);
+                newTile = objectPooler.SpawnFromPool(fullWallStr, nextPosition, Quaternion.identity);
                 newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
                 //Prepare next position.
                 nextPosition.x  += (tileSize.x + gap);
                 
                 //Set parent to Generator.
-                newTile.transform.parent = gameObject.transform;
+//                newTile.transform.parent = gameObject.transform;
                 
                 //Add to list.
                 AllTiles.Add(newTile);
             }
             
             {
-                newTile = Instantiate(leftWall, nextPosition, Quaternion.identity);
+                newTile = objectPooler.SpawnFromPool(leftWallStr, nextPosition, Quaternion.identity);
                 newTile.layer = Mathf.RoundToInt(Mathf.Log(groundLayer.value, 2));
                 //Prepare next position.
                 nextPosition.x  += (tileSize.x + gap);
                 
                 //Set parent to Generator.
-                newTile.transform.parent = gameObject.transform;
+//                newTile.transform.parent = gameObject.transform;
                 
                 //Flip tile now.
                 newTile.GetComponent<SpriteRenderer>().flipX = true;
@@ -245,7 +252,15 @@ public class Building : MonoBehaviour
             nextPosition.y -= tileSize.y;
         }
     }
-
+    
+    public void ClearAll(){
+        for(int i = 0; i < AllTiles.Count; i++){
+            MonoBehaviourPooledObject tile = AllTiles[i].GetComponent<MonoBehaviourPooledObject>();
+            tile.WithdrawToPool();
+        }
+        AllTiles.Clear();
+        RoofTiles.Clear();
+    }
 }
 
 
