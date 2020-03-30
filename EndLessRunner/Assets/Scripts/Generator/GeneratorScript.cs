@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class GeneratorScript : MonoBehaviour
 {
-    
     public GameObject player;
-    public ThisGameData thisGameData;
+    private ThisGameData thisGameData;
     
     [System.Serializable]
     public class SettlementsMeta
@@ -55,6 +54,10 @@ public class GeneratorScript : MonoBehaviour
         settlementWeightCalculator = new Weight();
         CapableSettlementsMetaList = new List<SettlementsMeta>();
         AllStartedSettlementList = new List<GameObject>();
+        
+//        player = Instantiate(playerPrefab, playerPrefab.transform.position, playerPrefab.transform.rotation);
+        thisGameData = player.GetComponent<ThisGameData>();
+        
         CreateNewSettlement();
         
         nextSignAtDistance = distancePerSign;

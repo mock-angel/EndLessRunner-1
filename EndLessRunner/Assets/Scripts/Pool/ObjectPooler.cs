@@ -17,10 +17,15 @@ public class PoolQueue<T> : Queue
 
 public class ObjectPooler : MonoBehaviour
 {
+    public static ObjectPooler Instance;
+    
+    public bool useAsSingleton;
+    
     public List<Pool> pools;
     public Dictionary<string, PoolQueue<GameObject>> poolDictionary;
     
     void Awake(){
+        if(useAsSingleton) Instance = this;
         if(poolDictionary == null) poolDictionary = new Dictionary<string, PoolQueue<GameObject>>();
         else return;
         
