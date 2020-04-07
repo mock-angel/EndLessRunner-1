@@ -80,7 +80,6 @@ public class Settlement : MonoBehaviour
         Vector2 upperRight = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         
         //Remove Buildings that went outside of view.
-        if(allBuildingsDeleted) return;
         if(AllCreatedBuildingsList[0].GetComponent<Building>().rightMostPoint.x < lowerLeft.x){
             GameObject firstBuilding = AllCreatedBuildingsList[0];
             AllCreatedBuildingsList.RemoveAt(0);
